@@ -17,6 +17,7 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.test
+db
 
 # Vite
 vite.config.js.timestamp-*
@@ -24,8 +25,15 @@ vite.config.ts.timestamp-*
 # Paraglide
 src/lib/paraglide
 project.inlang/cache/
+# Prisma 7 ORM
+/generated/prisma
 
 # IDEs and Harnesses
 .vscode
 .opencode
 .github
+.agents
+.claude
+.cursor
+.devin
+.windsurf
