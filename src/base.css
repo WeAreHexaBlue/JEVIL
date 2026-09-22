@@ -1,8 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 @import "tailwindcss";
 
+@font-face {
+    font-family: "Clash Display";
+    src:
+        url("/fonts/clash-display/ClashDisplay-Variable.woff2") format("woff2-variations"),
+        url("/fonts/clash-display/ClashDisplay-Variable.woff2") format("woff2");
+    font-weight: 200 700;
+    font-display: swap;
+    font-style: normal;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-clash: "Clash Display", sans-serif;
+    --font-inter: "Inter", sans-serif;
+    --font-mono: "Space Mono", monospace;
+}
+
+@utility brand {
+    @apply flex items-center gap-2;
+}
+
+@utility title {
+    @apply text-3xl md:text-5xl font-clash font-extrabold;
+}
 
 body {
     @apply bg-mist-50 dark:bg-mist-900;
     @apply overflow-x-hidden;
+}
+
+ul {
+    @apply pl-0;
+}
+
+li {
+    @apply list-inside list-disc;
 }
