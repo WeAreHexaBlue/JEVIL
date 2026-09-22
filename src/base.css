@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+    @apply bg-mist-50 dark:bg-mist-900;
+    @apply overflow-x-hidden;
+}
