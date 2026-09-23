@@ -4,8 +4,8 @@
 @font-face {
     font-family: "Clash Display";
     src:
-        url("/fonts/clash-display/ClashDisplay-Variable.woff2") format("woff2-variations"),
-        url("/fonts/clash-display/ClashDisplay-Variable.woff2") format("woff2");
+        url("/fonts/ClashDisplay-Variable.woff2") format("woff2-variations"),
+        url("/fonts/ClashDisplay-Variable.woff2") format("woff2");
     font-weight: 200 700;
     font-display: swap;
     font-style: normal;
@@ -17,10 +17,29 @@
     --font-clash: "Clash Display", sans-serif;
     --font-inter: "Inter", sans-serif;
     --font-mono: "Space Mono", monospace;
+
+    --color-jpurp: #6D6DBF;
+    --color-jyell: #FFF127;
+    --color-jlime: #B4E524;
+}
+
+@utility bg-jgrad {
+    background-image: 
+        linear-gradient(
+            10deg,
+            var(--color-jpurp) 41%,
+            var(--color-jyell) 45%,
+            var(--color-jlime) 49%
+        );
 }
 
 @utility brand {
-    @apply flex items-center gap-2;
+    @apply flex items-center -space-x-3;
+
+    h1 {
+        @apply mt-4;
+        @apply bg-clip-text text-transparent bg-jgrad;
+    }
 }
 
 @utility title {
@@ -28,7 +47,7 @@
 }
 
 body {
-    @apply bg-mist-50 dark:bg-mist-900;
+    @apply bg-violet-950 text-white;
     @apply overflow-x-hidden;
 }
 

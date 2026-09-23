@@ -4,7 +4,7 @@
 	import { page } from "$app/state";
 	import { locales, localizeHref } from "$lib/paraglide/runtime";
 	import "./layout.css";
-	import favicon from "$lib/assets/favicon.png";
+	import favicon from "$lib/assets/favicon.svg";
 
 	import Navigation from "$lib/components/navigation.svelte";
 	import Footer from "$lib/components/footer.svelte";
