@@ -14,7 +14,7 @@
 	const dashOffset = circumference * (1 - score);
 </script>
 
-<div class="relative mx-auto h-[420px] w-full max-w-[460px] select-none" aria-hidden="true">
+<div class="relative mx-auto h-[340px] w-full max-w-[460px] select-none" aria-hidden="true">
 	<!-- Palette card -->
 	<div
 		class="absolute top-4 left-0 w-[270px] -rotate-2 rounded-lg border border-line bg-paper p-5 shadow-soft"
@@ -79,7 +79,7 @@
 
 	<!-- Yes/no card -->
 	<div
-		class="absolute bottom-2 left-6 w-[250px] rotate-1 rounded-lg border-[1.5px] border-ink bg-paper p-5 shadow-lift"
+		class="absolute top-[210px] left-1/2 w-[250px] -translate-x-1/2 rotate-1 rounded-lg border-[1.5px] border-ink bg-paper p-5 shadow-lift"
 	>
 		<p class="font-mono text-[11px] tracking-[0.08em] text-muted uppercase">Should I ship it?</p>
 		<div class="mt-3 flex items-center gap-3">
