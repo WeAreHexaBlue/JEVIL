@@ -13,7 +13,9 @@
 	<title>{title} — JEVIL</title>
 </svelte:head>
 
-<section class="container-page flex min-h-[60vh] flex-col justify-center py-20">
+<section
+	class="container-page flex min-h-[60vh] flex-col items-center justify-center py-20 text-center md:items-start md:text-left"
+>
 	<p class="eyebrow">{page.status}</p>
 	<h1 class="mt-4 max-w-2xl text-h1">{title}</h1>
 	<p class="measure mt-4 text-body-lg text-ink-2">{body}</p>

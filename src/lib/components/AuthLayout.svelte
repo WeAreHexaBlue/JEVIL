@@ -20,12 +20,14 @@
 </script>
 
 <div class="container-page grid gap-12 py-10 md:py-16 lg:grid-cols-12 lg:gap-16">
-	<div class="flex flex-col justify-center lg:col-span-5">
+	<div
+		class="flex flex-col items-center justify-center text-center lg:col-span-5 lg:items-start lg:text-left"
+	>
 		<div class="w-full max-w-md">
 			<h1 class="text-h1">{title}</h1>
 			<p class="mt-3 text-body text-ink-2">{m.auth_sub()}</p>
 
-			<div class="mt-8">
+			<div class="mt-8 text-left">
 				{#if hasOAuth}
 					<div class="flex flex-col gap-3">
 						{#if providers.github}

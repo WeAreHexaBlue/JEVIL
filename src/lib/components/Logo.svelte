@@ -4,8 +4,16 @@
 	let {
 		class: className = '',
 		showWordmark = true,
-		tone = 'ink'
-	}: { class?: string; showWordmark?: boolean; tone?: 'ink' | 'light' } = $props();
+		tone = 'ink',
+		size = 'md',
+		wordmarkClass = ''
+	}: {
+		class?: string;
+		showWordmark?: boolean;
+		tone?: 'ink' | 'light';
+		size?: 'md' | 'lg';
+		wordmarkClass?: string;
+	} = $props();
 
 	const wordmark = $derived(tone === 'light' ? 'text-on-night' : 'text-ink');
 	const uid = $props.id();
@@ -13,8 +21,13 @@
 	const clipId = `jevil-hex-${uid}`;
 </script>
 
-<span class={cn('inline-flex items-center gap-2.5', className)}>
-	<svg viewBox="0 0 32 32" class="size-7 shrink-0" aria-hidden="true" focusable="false">
+<span class={cn('inline-flex items-center', size === 'lg' ? 'gap-2' : 'gap-2.5', className)}>
+	<svg
+		viewBox="0 0 32 32"
+		class={size === 'lg' ? 'size-15 shrink-0' : 'size-7 shrink-0'}
+		aria-hidden="true"
+		focusable="false"
+	>
 		<defs>
 			<linearGradient id={gradientId} x1="3" y1="1" x2="29" y2="31" gradientUnits="userSpaceOnUse">
 				<stop stop-color="#5B21B6" />
@@ -33,7 +46,12 @@
 	</svg>
 	{#if showWordmark}
 		<span
-			class={cn('font-display text-[1.0625rem] font-bold tracking-[-0.04em]', wordmark)}
+			class={cn(
+				'font-display font-bold tracking-[-0.04em]',
+				size === 'lg' ? 'text-3xl md:text-5xl md:font-extrabold' : 'text-[1.0625rem]',
+				wordmark,
+				wordmarkClass
+			)}
 			aria-hidden="true">JEVIL</span
 		>
 	{/if}

@@ -147,7 +147,7 @@
 					href={link.href}
 					onclick={close}
 					aria-current={page.url.pathname === link.path ? 'page' : undefined}
-					class="rounded-md px-2 py-4 font-display text-h2 font-bold tracking-[-0.03em] text-ink transition-colors hover:bg-paper-2"
+					class="rounded-md px-2 py-4 text-center font-display text-h2 font-bold tracking-[-0.03em] text-ink transition-colors hover:bg-paper-2"
 				>
 					{link.label}
 				</a>

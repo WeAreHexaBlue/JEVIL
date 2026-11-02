@@ -97,7 +97,9 @@ The palette is JEVIL's: deep purple, acid green, and gold, with pink as a rare f
 | `red` | `#B42318` | Destructive, errors |
 | `night` | `#171022` | Footer panel (same in both themes) |
 
-**JEVIL gradient:** `linear-gradient(135deg, #5B21B6 0%, #8B5CF6 45%, #B9F24D 100%)`. Use for the logo, one hero detail, and canvas paint. Never as a full-page background. Footer links use a violet→lime→gold text gradient on `night`.
+**JEVIL gradient:** `linear-gradient(135deg, #5B21B6 0%, #8B5CF6 45%, #B9F24D 100%)`. Use for the logo, one hero detail, and canvas paint. Never as a full-page background.
+
+**Footer:** a `night` panel with rounded top corners, matching the HexaBlue sites. It holds the JEVIL mark next to the HexaBlue mark (separated by a hairline), the GPL-3.0 notice, and the footer links. No copyright line and no extra taglines.
 
 ### 4.2 Tonal surfaces
 
@@ -137,7 +139,7 @@ Themes ship in v1. The inline script in `app.html` resolves the saved choice (`l
 - Buttons: `brand` bg + `on-brand` text; ink bg + paper text for secondary emphasis. Never hard-code white on `brand`, because dark mode flips the pair.
 - Never use color alone to encode a choice, score, or error. Pair with a label, number, or icon.
 - App accents are functional: they tint the app card, the result panel, and the primary button inside the runner.
-- Maximum two accent colors visible at once (violet + the app's accent). The footer is the one place where purple, lime, and gold appear together.
+- Maximum two accent colors visible at once (violet + the app's accent). The footer stays monochrome on `night`, with the marks carrying the only color.
 
 ---
 
@@ -410,11 +412,12 @@ Disable under `prefers-reduced-transparency` and in the editor canvas (it interf
 ├──────────────────────────────────────────────────────────────┤
 │  Make a tiny thing.  [mock editor with dotted grid]           │
 ├──────────────────────────────────────────────────────────────┤
-│  footer: logo · apps · make · about · privacy · GitHub        │
+│  footer: JEVIL | HexaBlue · GPL 3.0 · apps · make · GitHub     │
 └──────────────────────────────────────────────────────────────┘
 ```
 
 - Hero copy is left-aligned, 7 columns; the card stack is right-aligned, rotated −2°/+3°, overlapping by 24 px.
+- Below 768 px, hero copy, section headers, empty states, auth headers, and CTAs center. From 768 px up they return to the left-aligned layout.
 - One card in the stack is "live": it shows a palette preview and a confidence chip.
 - The model strip is mono 12 px, `muted`, separated by `·`.
 - "How it works" uses giant numerals in Bricolage 700, `paper-3` color, with 16 px copy below.

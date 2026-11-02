@@ -70,7 +70,9 @@
 </svelte:head>
 
 <section class="container-page py-12 md:py-16">
-	<div class="flex flex-col gap-6 sm:flex-row sm:items-center">
+	<div
+		class="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-center sm:text-left"
+	>
 		<span
 			class="grid size-20 shrink-0 place-items-center rounded-full bg-[linear-gradient(135deg,#5B21B6,#8B5CF6)] font-display text-h2 font-bold text-white"
 			aria-hidden="true">{initial}</span
@@ -85,7 +87,7 @@
 	</div>
 
 	<nav
-		class="mt-10 inline-flex flex-wrap gap-1 rounded-full bg-paper-2 p-1"
+		class="mx-auto mt-10 inline-flex flex-wrap justify-center gap-1 rounded-full bg-paper-2 p-1 sm:mx-0"
 		aria-label={m.me_tabs_label()}
 	>
 		{#each tabs as tab (tab.id)}

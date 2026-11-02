@@ -10,7 +10,9 @@
 	}: { title: string; body: string; class?: string; children?: Snippet } = $props();
 </script>
 
-<div class={cn('flex flex-col items-start gap-6', className)}>
+<div
+	class={cn('flex flex-col items-center gap-6 text-center sm:items-start sm:text-left', className)}
+>
 	<svg viewBox="0 0 120 72" class="h-16 w-28" aria-hidden="true">
 		<circle cx="28" cy="36" r="18" fill="var(--brand)" opacity="0.2" />
 		<rect x="46" y="18" width="36" height="36" rx="10" fill="var(--color-lime)" opacity="0.55" />

@@ -18,13 +18,15 @@
 </svelte:head>
 
 <section class="container-page py-12 md:py-16">
-	<div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+	<div
+		class="flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left"
+	>
 		<div>
 			<h1 class="text-h1">{m.apps_title()}</h1>
 			<p class="mt-2 font-mono text-micro text-muted">{m.apps_count({ count })}</p>
 		</div>
 
-		<form method="GET" role="search" class="flex w-full max-w-md gap-2">
+		<form method="GET" role="search" class="mx-auto flex w-full max-w-md gap-2 md:mx-0">
 			<div class="relative flex-1">
 				<label for="app-search" class="sr-only">{m.apps_search_label()}</label>
 				<Icon

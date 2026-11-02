@@ -103,15 +103,12 @@
 	"error_500_body": "Try again in a minute.",
 	"error_cta": "Back to apps",
 
-	"footer_tagline": "Small apps. Sharp decisions.",
 	"footer_apps": "Apps",
 	"footer_make": "Make",
 	"footer_how": "How it works",
 	"footer_github": "GitHub",
-	"footer_license": "All of JEVIL is free and open-source under the GNU General Public License 3.0.",
-	"footer_stay": "Want to stay in the loop?",
-	"footer_stay_link": "Follow the build on GitHub",
-	"footer_nav_label": "Footer",
-	"footer_hexablue": "A HexaBlue project",
-	"footer_rights": "© {year} JEVIL"
+	"footer_license_app": "JEVIL",
+	"footer_license_lead": ", like all HexaBlue software, is free under the",
+	"footer_license_name": "GNU General Public License 3.0",
+	"footer_nav_label": "Footer"
 }
