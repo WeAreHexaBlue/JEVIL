@@ -1,0 +1,23 @@
+<script lang="ts">
+	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
+	import * as m from '#lib/paraglide/messages.js';
+	import Button from '#lib/components/Button.svelte';
+
+	const isNotFound = $derived(page.status === 404);
+	const title = $derived(isNotFound ? m.error_404_title() : m.error_500_title());
+	const body = $derived(isNotFound ? m.error_404_body() : m.error_500_body());
+</script>
+
+<svelte:head>
+	<title>{title} — JEVIL</title>
+</svelte:head>
+
+<section class="container-page flex min-h-[60vh] flex-col justify-center py-20">
+	<p class="eyebrow">{page.status}</p>
+	<h1 class="mt-4 max-w-2xl text-h1">{title}</h1>
+	<p class="measure mt-4 text-body-lg text-ink-2">{body}</p>
+	<div class="mt-8">
+		<Button href={resolve('/apps')}>{m.error_cta()}</Button>
+	</div>
+</section>

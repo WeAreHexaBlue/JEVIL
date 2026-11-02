@@ -4,7 +4,7 @@
 > **Direction:** Expressive minimal hybrid — [hexa.blue](https://hexa.blue)'s restraint + Material 3 Expressive's chunky, springy confidence.
 > **Companion docs:** [SPEC.md](../SPEC.md) · [App format](./APP-FORMAT.md) · [Roadmap](../ROADMAP.md)
 
-The design should feel like a **small design studio's toy shelf**, not an AI product. Warm paper, big type, crisp edges, one electric blue, and a few loud accents. The apps are the color; the chrome stays quiet.
+The design should feel like a **small design studio's toy shelf**, not an AI product. Warm paper, big type, crisp edges, one electric violet, and a few loud accents. The apps are the color; the chrome stays quiet.
 
 ---
 
@@ -16,7 +16,7 @@ The design should feel like a **small design studio's toy shelf**, not an AI pro
 - Oversized, tightly tracked display type.
 - Almost no chrome: no gradients everywhere, no glass, no drop-shadow soup.
 - Confident black-on-paper contrast.
-- A single blue accent used sparingly.
+- A single violet accent used sparingly.
 
 ### From Material 3 Expressive
 
@@ -29,7 +29,7 @@ The design should feel like a **small design studio's toy shelf**, not an AI pro
 ### What we avoid
 
 - Chat bubbles, avatars, typing indicators, streaming text.
-- Purple-to-blue gradients on near-black ("default AI startup").
+- Purple-to-blue gradients as a full-page background ("default AI startup").
 - Glassmorphism, neon glows, floating 3D blobs.
 - Uniform 3×N card grids with identical cards.
 - Mascots, confetti, emoji confetti, "magic" sparkles as a brand.
@@ -46,7 +46,7 @@ The design should feel like a **small design studio's toy shelf**, not an AI pro
 
 **One-liner:** A marketplace for tiny apps powered by decision models — not chat.
 
-**Logo:** a hexagonal "decision prism" split into three facets (choice / score / yes-no) with the blue→sky gradient from HexaBlue. Paired with the JEVIL wordmark in Bricolage Grotesque 700, tracking `-0.04em`. The mark works at 24 px; the wordmark is hidden below 480 px.
+**Logo:** a hexagonal "decision prism" split into three facets (choice / score / yes-no) with a violet→lime gradient that echoes JEVIL's purple, green, and gold. Paired with the JEVIL wordmark in Bricolage Grotesque 700, tracking `-0.04em`. The mark works at 24 px; the wordmark is hidden below 480 px.
 
 **Voice:** dry, warm, specific. Short sentences. Verbs first. No hype.
 
@@ -63,7 +63,7 @@ The design should feel like a **small design studio's toy shelf**, not an AI pro
 ## 3. Principles
 
 1. **The app is the hero.** Chrome recedes; the result gets the space.
-2. **One loud color per screen.** Blue is the action color; accent tones belong to apps and data.
+2. **One loud color per screen.** Violet is the action color; lime and gold belong to data and playful moments.
 3. **Big type, few words.** If a label needs a paragraph, the design is wrong.
 4. **Soft surfaces, crisp edges.** Rounded shapes, 1 px lines, no blurry borders.
 5. **Motion explains, never performs.** Spring on press, stagger on results, nothing on scroll.
@@ -75,25 +75,29 @@ The design should feel like a **small design studio's toy shelf**, not an AI pro
 
 ### 4.1 Core palette
 
+The palette is JEVIL's: deep purple, acid green, and gold, with pink as a rare fourth note. The chrome uses purple; green and gold are for data and small celebrations.
+
 | Token | Hex | Use |
 | --- | --- | --- |
-| `paper` | `#F6F2E9` | Page background |
-| `paper-2` | `#EFE9DC` | Recessed surfaces, canvas, inputs |
-| `paper-3` | `#E6DECE` | Tracks, dividers, hover fills |
-| `ink` | `#16150F` | Primary text, primary buttons |
-| `ink-2` | `#3D3A32` | Secondary text |
-| `muted` | `#6B665A` | Helper text, metadata |
-| `line` | `#D8D0C0` | Hairlines, borders |
-| `blue` | `#006EFF` | Primary action, links, focus |
-| `sky` | `#00BFFF` | Gradient partner, informational |
-| `pink` | `#FF5D8F` | Playful accent, "hot" data |
-| `lime` | `#C8F45A` | Success, "go" data |
-| `tangerine` | `#FF8A3D` | Warning, "warm" data |
-| `violet` | `#7C5CFF` | Creative accent, "cool" data |
-| `red` | `#D9480F` | Destructive, errors |
-| `green` | `#0E8A5F` | Success text (contrast-safe) |
+| `paper` | `#F7F4FF` | Page background (light) |
+| `paper-2` | `#EFEBFA` | Recessed surfaces, canvas, inputs |
+| `paper-3` | `#E3DCF2` | Tracks, dividers, hover fills |
+| `ink` | `#171123` | Primary text, primary buttons |
+| `ink-2` | `#3D3450` | Secondary text |
+| `muted` | `#6C6287` | Helper text, metadata |
+| `line` | `#D9D0EA` | Hairlines, borders |
+| `brand` | `#5B21B6` | Primary action, links, focus |
+| `brand-strong` | `#4C1D95` | Primary hover |
+| `brand-soft` | `#ECE4FF` | Selected chips, quiet fills |
+| `violet` | `#7C3AED` | Creative accent, "cool" data |
+| `lime` | `#B9F24D` | Success, "go" data |
+| `gold` | `#FFD93D` | Scores, highlights, warnings |
+| `pink` | `#EF5DA8` | Playful accent, "hot" data |
+| `green` | `#1F7A45` | Success text (contrast-safe) |
+| `red` | `#B42318` | Destructive, errors |
+| `night` | `#171022` | Footer panel (same in both themes) |
 
-**Blue gradient:** `linear-gradient(135deg, #006EFF 0%, #00BFFF 100%)`. Use for the logo, one hero detail, and canvas paint. Never as a full-page background.
+**JEVIL gradient:** `linear-gradient(135deg, #5B21B6 0%, #8B5CF6 45%, #B9F24D 100%)`. Use for the logo, one hero detail, and canvas paint. Never as a full-page background. Footer links use a violet→lime→gold text gradient on `night`.
 
 ### 4.2 Tonal surfaces
 
@@ -105,29 +109,35 @@ tone-line(accent) = color-mix(in oklab, var(--accent) 28%, var(--line))
 tone-ink(accent)  = color-mix(in oklab, var(--accent) 60%, var(--ink))
 ```
 
-App cards and result panels can set `--accent` from `meta.accent`; the rest of the UI stays blue.
+App cards and result panels can set `--accent` from `meta.accent`; the rest of the UI stays violet.
 
-### 4.3 Dark mode (ready, not shipped in v1)
+### 4.3 Light, dark, and system
+
+Themes ship in v1. The inline script in `app.html` resolves the saved choice (`light`, `dark`, or `system`) before first paint and sets `data-theme` on `<html>`. `src/lib/theme.svelte.ts` owns the reactive preference; `ThemeToggle` exposes the three choices in the header and mobile menu. The choice persists in `localStorage` under `jevil-theme`; `system` follows `prefers-color-scheme` live.
 
 | Token | Dark value |
 | --- | --- |
-| `paper` | `#12110D` |
-| `paper-2` | `#1B1914` |
-| `paper-3` | `#26231B` |
-| `ink` | `#F4EFE3` |
-| `ink-2` | `#D6CFC0` |
-| `muted` | `#A8A296` |
-| `line` | `#332F26` |
+| `paper` | `#120E19` |
+| `paper-2` | `#1B1425` |
+| `paper-3` | `#271D35` |
+| `ink` | `#F4EFFF` |
+| `ink-2` | `#D3C9E5` |
+| `muted` | `#A397BD` |
+| `line` | `#372A49` |
+| `brand` | `#A78BFA` |
+| `on-brand` | `#180F26` |
+| `brand-strong` | `#C4B5FD` |
+| `brand-soft` | `#241A38` |
 
-Accents stay the same but are desaturated by 8%. Audit contrast before enabling.
+`lime`, `gold`, and `pink` stay fixed and always pair with a dark `on-*` ink. Dark surfaces use the same hue family as the light ones, not a neutral grey.
 
 ### 4.4 Color rules
 
 - Text on `paper`: `ink` or `ink-2`. Never `muted` below 14 px.
-- Buttons: blue bg + white text; ink bg + paper text for secondary emphasis.
+- Buttons: `brand` bg + `on-brand` text; ink bg + paper text for secondary emphasis. Never hard-code white on `brand`, because dark mode flips the pair.
 - Never use color alone to encode a choice, score, or error. Pair with a label, number, or icon.
 - App accents are functional: they tint the app card, the result panel, and the primary button inside the runner.
-- Maximum two accent colors visible at once (blue + the app's accent).
+- Maximum two accent colors visible at once (violet + the app's accent). The footer is the one place where purple, lime, and gold appear together.
 
 ---
 
@@ -177,12 +187,12 @@ Use `clamp()` for fluid display sizes:
 ### 5.3 Rules
 
 - Display type is always sentence case, never all caps.
-- Eyebrows are `micro`, uppercase, tracking `0.12em`, `muted` or `blue`.
+- Eyebrows are `micro`, uppercase, tracking `0.12em`, `muted` or `brand`.
 - Body measure: 58–68 characters. Never full-width paragraphs.
 - Numbers in stats and dials use `font-variant-numeric: tabular-nums`.
 - Max two weights per screen (e.g. 500 + 700).
 - Don't set body copy in Bricolage; it gets tiring below 24 px.
-- Links are underlined by default, blue, with a 2 px offset.
+- Links are underlined by default, `brand`, with a 2 px offset.
 
 ---
 
@@ -295,7 +305,7 @@ Disable under `prefers-reduced-transparency` and in the editor canvas (it interf
 ### 8.1 Button
 
 - Pill, min-height 44 px, padding 12×20 px, `body` 15 px / 600.
-- **Primary:** blue bg, white text. Hover: darken 6%. Active: scale 0.97.
+- **Primary:** `brand` bg, `on-brand` text. Hover: `brand-strong`. Active: scale 0.97.
 - **Secondary:** paper bg, 1.5 px ink border, ink text. Hover: paper-2.
 - **Ghost:** transparent, ink text. Hover: paper-2.
 - **Danger:** red bg, white text.
@@ -307,7 +317,7 @@ Disable under `prefers-reduced-transparency` and in the editor canvas (it interf
 
 - Height 48 px (textarea auto), 14 px radius, `paper-2` bg, 1.5 px `line` border.
 - Label above, 13 px / 600. Help below, 12 px `muted`. Error below, 12 px `red`.
-- Focus: blue border + 3 px blue ring at 20% opacity.
+- Focus: `brand` border + 3 px `brand` ring at 20% opacity.
 - Placeholder: `muted` at 70%.
 - Select: native `<select>` styled, chevron icon, no custom dropdown in v1.
 - Slider: 6 px track `paper-3`, 18 px thumb ink with 2 px paper ring; value shown in mono.
@@ -334,7 +344,7 @@ Disable under `prefers-reduced-transparency` and in the editor canvas (it interf
 - Height 64 px, paper bg, bottom hairline on scroll.
 - Logo left; primary links ("Apps", "Make", "How it works") center-left; right: connection chip, "Sign in", primary CTA.
 - Mobile: logo + "Make" + menu button; full-screen sheet menu with large links.
-- Active link: ink text + 2 px blue underline offset 6 px.
+- Active link: ink text + 2 px `brand` underline offset 6 px.
 - Skip link: first focusable element, visible on focus.
 
 ### 8.6 Dialogs and sheets
@@ -439,10 +449,10 @@ Disable under `prefers-reduced-transparency` and in the editor canvas (it interf
 
 - Top bar: back, app name (inline editable), save status, device segmented control, Preview, Publish.
 - Left: component palette with search and groups (Layout, Input, Display, Action); tiles 56 px with icon + label.
-- Center: canvas on `paper-2` with a 16 px dotted grid; app rendered inside a paper frame with 28 px radius; selection blue outline + 8 px handles; breadcrumb at top.
+- Center: canvas on `paper-2` with a 16 px dotted grid; app rendered inside a paper frame with 28 px radius; selection `brand` outline + 8 px handles; breadcrumb at top.
 - Right: inspector tabs (Props, Style, Bindings) + Variables/Questions sections below; sticky header.
 - Bottom: test bench drawer, 280 px, collapsible; inputs, Run, answers (tabs: Pretty / JSON), latency, tokens.
-- Drop indicator: 2 px blue line with a small "Drop here" pill.
+- Drop indicator: 2 px `brand` line with a small "Drop here" pill.
 - Empty canvas: "Drag something in. Start with an Input." + three suggested components.
 
 ### 9.6 Auth
@@ -530,7 +540,7 @@ Disable under `prefers-reduced-transparency` and in the editor canvas (it interf
 ## 12. Accessibility
 
 - **Contrast:** body text ≥4.5:1; large display ≥3:1; UI borders ≥3:1 against adjacent surfaces. Test `muted` on `paper-2` (it is close — darken if needed).
-- **Focus:** 3 px blue ring, 2 px offset, never removed. Visible on paper, ink, and accent surfaces.
+- **Focus:** 3 px `brand` ring, 2 px offset, never removed. Visible on paper, ink, and accent surfaces in both themes.
 - **Targets:** 44×44 px minimum, 8 px spacing between adjacent targets.
 - **Keyboard:** every flow works without a pointer. Editor drag has a "Move up/down" menu and `Alt+↑/↓`.
 - **Semantics:** one `h1` per page; landmarks (`header`, `nav`, `main`, `footer`); buttons are `<button>`, links are `<a>`.
@@ -552,21 +562,25 @@ Disable under `prefers-reduced-transparency` and in the editor canvas (it interf
 @import "tailwindcss";
 
 @theme {
-  --color-paper: #f6f2e9;
-  --color-paper-2: #efe9dc;
-  --color-paper-3: #e6dece;
-  --color-ink: #16150f;
-  --color-ink-2: #3d3a32;
-  --color-muted: #6b665a;
-  --color-line: #d8d0c0;
-  --color-blue: #006eff;
-  --color-sky: #00bfff;
-  --color-pink: #ff5d8f;
-  --color-lime: #c8f45a;
-  --color-tangerine: #ff8a3d;
-  --color-violet: #7c5cff;
-  --color-red: #d9480f;
-  --color-green: #0e8a5f;
+  /* Semantic colours read runtime variables so [data-theme] can swap them. */
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-on-brand: var(--on-brand);
+  --color-violet: var(--violet);
+  --color-green: var(--green);
+  --color-red: var(--red);
+
+  /* Fixed accents */
+  --color-lime: #b9f24d;
+  --color-gold: #ffd93d;
+  --color-pink: #ef5da8;
+  --color-night: #171022;
 
   --radius-xs: 6px;
   --radius-sm: 12px;
@@ -574,8 +588,8 @@ Disable under `prefers-reduced-transparency` and in the editor canvas (it interf
   --radius-lg: 28px;
   --radius-xl: 36px;
 
-  --shadow-soft: 0 1px 2px rgb(22 21 15 / 0.04), 0 12px 32px rgb(22 21 15 / 0.06);
-  --shadow-lift: 0 2px 0 var(--color-ink), 0 18px 40px rgb(22 21 15 / 0.10);
+  --shadow-soft: 0 1px 2px rgb(22 12 40 / 0.05), 0 12px 32px rgb(22 12 40 / 0.07);
+  --shadow-lift: 0 2px 0 var(--ink), 0 18px 40px rgb(22 12 40 / 0.14);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -654,7 +668,7 @@ Keep opacity transitions if they aid comprehension; remove transforms.
 ## 15. Visual QA checklist
 
 - [ ] Page has one `h1` and a clear reading order.
-- [ ] Blue is used for actions/focus only; app accents are contained.
+- [ ] Violet is used for actions/focus only; app accents are contained.
 - [ ] Text contrast passes; `muted` is not used for small body copy.
 - [ ] Every interactive element has hover, focus, active, and disabled states.
 - [ ] 44 px targets; no overlapping hit areas.
@@ -665,5 +679,6 @@ Keep opacity transitions if they aid comprehension; remove transforms.
 - [ ] No layout shift when fonts, previews, or results load.
 - [ ] Keyboard path works through nav → catalog → detail → run.
 - [ ] Mobile sticky bar doesn't cover the footer or inputs.
-- [ ] Dark-mode tokens exist and are not accidentally applied.
+- [ ] Light, dark, and system themes each pass contrast, with no flash on load.
+- [ ] Theme choice persists and follows system changes when set to system.
 - [ ] Screenshot review at 390, 768, and 1440 px before merging.

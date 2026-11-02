@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="%paraglide.lang%" dir="%paraglide.dir%">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="text-scale" content="scale" />
+		<script>
+			// Resolve the saved theme before first paint so there is no flash.
+			(() => {
+				try {
+					const stored = localStorage.getItem('jevil-theme');
+					const choice =
+						stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+					const dark =
+						choice === 'dark' ||
+						(choice === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+					const root = document.documentElement;
+					root.dataset.theme = dark ? 'dark' : 'light';
+					root.dataset.themeChoice = choice;
+					root.style.colorScheme = dark ? 'dark' : 'light';
+				} catch {
+					document.documentElement.dataset.theme = 'light';
+				}
+			})();
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
