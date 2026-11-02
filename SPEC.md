@@ -231,7 +231,7 @@ interface DecideResponse {
 
 | Layer | Choice |
 | --- | --- |
-| Framework | SvelteKit 2 + Svelte 5 (runes), TypeScript strict |
+| Framework | SvelteKit 3 + Svelte 5 (runes), TypeScript strict |
 | Styling | Tailwind CSS v4 (CSS-first `@theme` tokens) |
 | Runtime (prod) | Cloudflare Workers (`adapter-cloudflare`, `workerd`) |
 | Runtime (dev/scripts) | Bun |

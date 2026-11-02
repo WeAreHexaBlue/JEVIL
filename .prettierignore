@@ -1,0 +1,18 @@
+# Package Managers
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lock
+bun.lockb
+
+# Miscellaneous
+/static/
+/drizzle/
+/worker-configuration.d.ts
+/project.inlang/
+
+# Long-form docs are wrapped by hand; Prettier reflows tables and prose badly.
+/SPEC.md
+/ROADMAP.md
+/AGENTS.md
+/docs/

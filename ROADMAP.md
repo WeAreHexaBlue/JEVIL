@@ -25,25 +25,26 @@ Later    Escape hatches     ──►  JS actions, media inputs, payments, i18n
 
 ### Tasks
 
-- [ ] Scaffold SvelteKit 2 + Svelte 5 + TypeScript strict with Bun.
+- [x] Scaffold SvelteKit 3 + Svelte 5 + TypeScript strict with Bun.
   - `bunx sv create . --template minimal --types ts`
-  - Add `adapter-cloudflare`, `wrangler.toml`, `.dev.vars.example`.
+  - Add `adapter-cloudflare`, `wrangler.jsonc`, `.env.example`.
   - Verify `bun run dev`, `bun run build`, `bunx wrangler deploy --dry-run`.
-- [ ] Add Tailwind CSS v4 via `@tailwindcss/vite`; create `src/app.css` with `@import "tailwindcss"` and the `@theme` tokens from [DESIGN.md](./docs/DESIGN.md).
-- [ ] Add Fontsource packages: Bricolage Grotesque, Instrument Sans, JetBrains Mono. Subset Latin. Verify no FOUT-driven layout shift.
-- [ ] Create D1 database; add `DB` binding; wire Drizzle + drizzle-kit; commit the first migration.
-- [ ] Add Better Auth with the Drizzle adapter:
-  - [ ] Email + password.
-  - [ ] Google OAuth.
-  - [ ] GitHub OAuth.
-  - [ ] Session cookie hardening (`HttpOnly`, `Secure`, `SameSite=Lax`).
+- [x] Add Tailwind CSS v4 via `@tailwindcss/vite`; create `src/app.css` with `@import "tailwindcss"` and the `@theme` tokens from [DESIGN.md](./docs/DESIGN.md).
+- [x] Add Fontsource packages: Bricolage Grotesque, Instrument Sans, JetBrains Mono. Subset Latin. Verify no FOUT-driven layout shift.
+- [x] Create D1 database; add `DB` binding; wire Drizzle + drizzle-kit; commit the first migration. Local D1 works; the remote id is still a placeholder.
+- [x] Add Better Auth with the Drizzle adapter:
+  - [x] Email + password.
+  - [x] Google OAuth (configured; needs real credentials to test).
+  - [x] GitHub OAuth (configured; needs real credentials to test).
+  - [x] Session cookie hardening (`HttpOnly`, `Secure`, `SameSite=Lax`).
   - [ ] Email verification + password reset (Resend in prod, console in dev).
-- [ ] Generate auth tables via `bunx @better-auth/cli generate`; add `profile` table with handle/role.
-- [ ] Build the app shell: header, footer, skip link, theme tokens, focus styles, 404/500 pages.
-- [ ] Build the home page skeleton (hero, featured placeholder, how-it-works) and the catalog empty state.
-- [ ] Add `src/lib/schema/` with shared Zod primitives (slug, handle, provider ids, connection input).
+- [x] Generate auth tables via `bunx @better-auth/cli generate`; add `profile` table with handle/role.
+- [x] Build the app shell: header, footer, skip link, theme tokens, focus styles, 404/500 pages.
+- [x] Add light / dark / system themes with a persisted choice, no-flash boot script, and a header toggle. Palette follows JEVIL's purple, green, and gold.
+- [x] Build the home page skeleton (hero, featured placeholder, how-it-works) and the catalog empty state.
+- [x] Add `src/lib/schema/` with shared Zod primitives (slug, handle, provider ids). Connection input arrives with Phase 1.
 - [ ] Add `src/lib/server/redact.ts` and a structured logger that drops `authorization`, `cookie`, `x-jevil-key`, and any `secret` field.
-- [ ] CI: `bun install --frozen-lockfile`, `bun run check`, `bun run test`, `bun run build`, `wrangler deploy --dry-run`.
+- [x] CI: `bun install --frozen-lockfile`, `bun run check`, `bun run test`, `bun run build`, `wrangler deploy --dry-run`.
 - [ ] Add `AGENTS.md` conventions check (commit format, Bun-only, migrations forward-only).
 
 ### Exit criteria
