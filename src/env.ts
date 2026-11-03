@@ -39,6 +39,11 @@ export const variables = defineEnvVars({
             "Base64-encoded 32-byte key used to encrypt provider credentials at rest. Required once connections ship.",
         schema: optional
     },
+    ENCRYPTION_KEYS: {
+        description:
+            'JSON map of key version to base64 key for rotation, e.g. `{"1":"…","2":"…"}`. Overrides ENCRYPTION_KEY; new writes use the highest version.',
+        schema: optional
+    },
     RESEND_API_KEY: {
         description: "Resend API key for verification and password-reset email.",
         schema: optional

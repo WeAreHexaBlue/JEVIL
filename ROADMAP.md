@@ -83,9 +83,9 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [ ] `systemone.ts` — custom base URL, optional bearer/custom header, `/v1/decide`.
   - [ ] `index.ts` — registry + capability metadata.
 - [ ] Implement connection encryption:
-  - [ ] AES-256-GCM with WebCrypto; AAD binding to user/connection/provider/key version.
-  - [ ] `ENCRYPTION_KEY` + rotation map.
-  - [ ] Round-trip tests; tamper tests; wrong-AAD tests.
+  - [x] AES-256-GCM with WebCrypto; AAD binding to user/connection/provider/key version.
+  - [x] `ENCRYPTION_KEY` + rotation map.
+  - [x] Round-trip tests; tamper tests; wrong-AAD tests.
 - [ ] Connection CRUD API + settings UI:
   - [ ] `GET/POST /api/connections`, `PATCH/DELETE /api/connections/:id`.
   - [ ] `POST /api/connections/:id/test` (health/validation call).

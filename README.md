@@ -53,6 +53,7 @@ The dev server runs SvelteKit with Wrangler's platform proxy, so the `DB` bindin
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | no       | Enables Google sign-in                         |
 | `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | no       | Enables GitHub sign-in                         |
 | `ENCRYPTION_KEY`                            | later    | Provider credential encryption                 |
+| `ENCRYPTION_KEYS`                           | no       | Rotation map; overrides `ENCRYPTION_KEY`       |
 | `RESEND_API_KEY` / `EMAIL_FROM`             | no       | Verification and reset email; console in dev   |
 
 OAuth callback URLs: `/api/auth/callback/google` and `/api/auth/callback/github`.
