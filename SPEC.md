@@ -322,7 +322,7 @@ All IDs are `TEXT` (UUID v4). Timestamps are `INTEGER` Unix milliseconds. JSON i
 | Table | Key columns |
 | --- | --- |
 | `profile` | `user_id` PK → user, `handle` UNIQUE, `display_name`, `bio`, `avatar_seed`, `role` (`user`/`moderator`/`admin`), `created_at` |
-| `connection` | `id` PK, `user_id`, `provider` (`jev`/`laya`/`clef`/`cloudflare`/`systemone`), `label`, `base_url`, `model`, `config_json` (non-secret, e.g. CF account ID), `auth_scheme`, `secret_ct` BLOB, `secret_iv` BLOB, `key_version` INT, `secret_last4`, `status` (`unchecked`/`ok`/`error`), `last_checked_at`, `created_at`, `updated_at` |
+| `connection` | `id` PK, `user_id`, `provider` (`jev`/`laya`/`clef`/`cloudflare`/`systemone`), `label`, `base_url`, `model`, `config_json` (non-secret, e.g. CF account ID), `auth_scheme` (`bearer`/`header`/`none`), `secret_ct` TEXT (base64 ciphertext), `secret_iv` TEXT (base64), `key_version` INT, `secret_last4`, `status` (`unchecked`/`ok`/`error`), `last_checked_at`, `created_at`, `updated_at`; index (`user_id`, `provider`) |
 | `app` | `id` PK, `owner_id`, `slug` UNIQUE, `title`, `tagline`, `description`, `icon`, `accent`, `tags_json`, `blueprint_json` (draft), `draft_revision` INT, `published_version_id`, `visibility` (`draft`/`unlisted`/`public`/`blocked`), `remixed_from_app_id`, `remixed_from_version_id`, `created_at`, `updated_at`, `published_at` |
 | `app_version` | `id` PK, `app_id`, `version` INT, `blueprint_json`, `changelog`, `created_by`, `created_at`; UNIQUE (`app_id`, `version`) |
 | `app_tag` | `app_id`, `tag`; PK (`app_id`, `tag`) |
@@ -430,6 +430,8 @@ A reference Laya bridge (`examples/laya-local-bridge/`) will be added in phase 2
 - AES-256-GCM, random 12-byte IV per encryption, AAD = `${userId}:${connectionId}:${provider}:${keyVersion}`.
 - `ENCRYPTION_KEYS` (JSON map `version → base64 key`) supports rotation; new writes use the highest version.
 - Decrypt only inside the decide request. Never return plaintext to the client. Never log headers, bodies, or error objects that may contain the key.
+- Ciphertext and IV are stored as base64 `TEXT` so a D1 row round-trips without
+  Node's `Buffer`; the AAD still binds each value to the row (SPEC §9.2).
 - `secret_last4` is stored for UI display ("•••• 4f2a"). Do not store the full key anywhere else.
 
 ### 10.7 SSRF and endpoint safety
