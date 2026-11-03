@@ -93,18 +93,18 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [x] Never render the secret after save; show `•••• last4`.
 - [ ] Guest connections:
   - [ ] IndexedDB store (`idb-keyval` or a tiny wrapper) with versioned schema.
-  - [ ] `POST /api/proxy/decide` with ephemeral `X-Jevil-Provider` / `Base-Url` / `Model` / `Key` headers.
-  - [ ] No DB write, no body logging, `Cache-Control: no-store`.
+  - [x] `POST /api/proxy/decide` with ephemeral `X-Jevil-Provider` / `Base-Url` / `Model` / `Key` headers.
+  - [x] No DB write, no body logging, `Cache-Control: no-store`.
   - [ ] Migration prompt on sign-in: import guest connections into encrypted account connections.
 - [ ] Local endpoint mode:
   - [ ] Detect `localhost` / `127.0.0.1` / `[::1]`; route direct from the browser.
   - [ ] CORS help panel with a copy-paste `Access-Control-Allow-Origin` snippet and `curl /health` check.
   - [ ] Clear failure state when CORS blocks the request.
 - [x] SSRF guard for custom/proxy endpoints: scheme, host, private ranges, redirects, ports.
-- [ ] Rate limiting:
-  - [ ] `RATE_LIMITER` binding per IP/user/connection.
-  - [ ] `usage_daily` counters for runs and tokens.
-  - [ ] 429 responses with `Retry-After`.
+- [x] Rate limiting:
+  - [x] `RATE_LIMITER` binding per IP/user/connection.
+  - [x] `usage_daily` counters for runs and tokens.
+  - [x] 429 responses with `Retry-After`.
 - [ ] A developer "Decide bench" page (`/settings/connections/:id/test` or a modal): state textarea, three question builders, raw + normalized JSON, latency, tokens.
 - [ ] Reference local bridge in `examples/laya-local-bridge/` (FastAPI or Flask) implementing the System One HTTP contract, with CORS and `/health`.
 - [ ] Contract tests with recorded fixtures for all five adapters; error-mapping table tests.
