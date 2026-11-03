@@ -17,7 +17,7 @@ Phase 0 — foundations. The shell, auth, design tokens, D1 schema, and CI exist
 - **Light, dark, and system themes** with a persisted, no-flash switch
 - **Cloudflare Workers** via `@sveltejs/adapter-cloudflare`
 - **D1** with Drizzle ORM (forward-only migrations)
-- **Better Auth** — email/password, Google, GitHub
+- **Better Auth** — email/password, Google, GitHub, email verification, and password reset
 - **Paraglide** for UI strings (`messages/en.json`)
 - **Bun** for install, scripts, and tests
 
@@ -53,7 +53,7 @@ The dev server runs SvelteKit with Wrangler's platform proxy, so the `DB` bindin
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | no       | Enables Google sign-in                         |
 | `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | no       | Enables GitHub sign-in                         |
 | `ENCRYPTION_KEY`                            | later    | Provider credential encryption                 |
-| `RESEND_API_KEY` / `EMAIL_FROM`             | later    | Verification and reset email                   |
+| `RESEND_API_KEY` / `EMAIL_FROM`             | no       | Verification and reset email; console in dev   |
 
 OAuth callback URLs: `/api/auth/callback/google` and `/api/auth/callback/github`.
 

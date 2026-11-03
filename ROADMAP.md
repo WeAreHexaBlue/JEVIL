@@ -37,7 +37,7 @@ Later    Escape hatches     ──►  JS actions, media inputs, payments, i18n
   - [x] Google OAuth (configured; needs real credentials to test).
   - [x] GitHub OAuth (configured; needs real credentials to test).
   - [x] Session cookie hardening (`HttpOnly`, `Secure`, `SameSite=Lax`).
-  - [ ] Email verification + password reset (Resend in prod, console in dev).
+  - [x] Email verification + password reset (Resend in prod, console in dev).
 - [x] Generate auth tables via `bunx @better-auth/cli generate`; add `profile` table with handle/role.
 - [x] Build the app shell: header, footer, skip link, theme tokens, focus styles, 404/500 pages.
 - [x] Add light / dark / system themes with a persisted choice, no-flash boot script, and a header toggle. Palette follows JEVIL's purple, green, and gold.
