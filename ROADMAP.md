@@ -45,7 +45,7 @@ Later    Escape hatches     ──►  JS actions, media inputs, payments, i18n
 - [x] Add `src/lib/schema/` with shared Zod primitives (slug, handle, provider ids). Connection input arrives with Phase 1.
 - [x] Add `src/lib/server/redact.ts` and a structured logger that drops `authorization`, `cookie`, `x-jevil-key`, and any `secret` field.
 - [x] CI: `bun install --frozen-lockfile`, `bun run check`, `bun run test`, `bun run build`, `wrangler deploy --dry-run`.
-- [ ] Add `AGENTS.md` conventions check (commit format, Bun-only, migrations forward-only).
+- [x] Add `AGENTS.md` conventions check (commit format, Bun-only, migrations forward-only).
 
 ### Exit criteria
 

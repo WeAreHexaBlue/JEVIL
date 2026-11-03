@@ -10,6 +10,23 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
+    conventions:
+        runs-on: ubuntu-latest
+        env:
+            GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  # The check needs the base commit to read the pushed range.
+                  fetch-depth: 0
+
+            - uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version: latest
+
+            - name: Check AGENTS.md conventions
+              run: bun run check:conventions
+
     verify:
         runs-on: ubuntu-latest
         env:
