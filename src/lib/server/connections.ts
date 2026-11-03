@@ -211,6 +211,9 @@ const findOwned = async (
     return row ?? null;
 };
 
+/** The raw row (including ciphertext) for server-side calls. */
+export const getConnectionRow = findOwned;
+
 export const getConnection = async (
     db: Database,
     userId: string,

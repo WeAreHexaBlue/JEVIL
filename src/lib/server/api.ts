@@ -9,6 +9,8 @@ import type { RequestEvent } from "@sveltejs/kit";
 import type { User } from "better-auth";
 import { CryptoConfigError, DecryptionError } from "./crypto";
 import { ConnectionError } from "./connections";
+import { statusForProviderError } from "./decide";
+import { ProviderError } from "./providers/base";
 import { logEvent } from "./log";
 
 export class ApiError extends Error {
@@ -33,6 +35,13 @@ export const json = (data: unknown, status = 200): Response =>
 
 export const fail = (status: number, code: string, message: string): Response =>
     json({ error: code, message }, status);
+
+/** 429 with the wait clients should honor. */
+export const rateLimited = (retryAfter: number): Response => {
+    const response = fail(429, "rate_limit", "Too many requests. Try again shortly.");
+    response.headers.set("retry-after", String(retryAfter));
+    return response;
+};
 
 /** Signed-in user, or a 401 the client can act on. */
 export const requireUser = (locals: App.Locals): User => {
@@ -60,6 +69,14 @@ export const readJson = async (request: Request): Promise<unknown> => {
     }
 };
 
+/** Refuse oversized bodies before parsing them. */
+export const assertBodyLimit = (request: Request, maxBytes: number): void => {
+    const declared = Number(request.headers.get("content-length") ?? Number.NaN);
+    if (Number.isFinite(declared) && declared > maxBytes) {
+        throw new ApiError(413, "too_large", "That request body is too large");
+    }
+};
+
 /** Convert a thrown error into a safe response. Unknown errors are logged. */
 export const apiError = (error: unknown): Response => {
     if (error instanceof ApiError) {
@@ -70,6 +87,13 @@ export const apiError = (error: unknown): Response => {
         return error.code === "not_found"
             ? fail(404, "not_found", error.message)
             : fail(400, "invalid", error.message);
+    }
+
+    if (error instanceof ProviderError) {
+        const status = statusForProviderError(error.code);
+        const response = fail(status, error.code, error.message);
+        if (status === 429) response.headers.set("retry-after", "60");
+        return response;
     }
 
     if (error instanceof DecryptionError) {
