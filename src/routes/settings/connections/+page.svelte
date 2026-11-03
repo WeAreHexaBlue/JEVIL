@@ -1,5 +1,6 @@
 <script lang="ts">
     import { untrack } from "svelte";
+    import { resolve } from "$app/paths";
     import { m } from "#lib/paraglide/messages";
     import Button from "#lib/components/Button.svelte";
     import EmptyState from "#lib/components/EmptyState.svelte";
@@ -149,6 +150,13 @@
                             <Button type="submit" variant="secondary">{m.connections_test()}</Button
                             >
                         </form>
+
+                        <Button
+                            href={resolve("/settings/connections/[id]/test", { id: connection.id })}
+                            variant="ghost"
+                        >
+                            {m.bench_open()}
+                        </Button>
 
                         <details class="group">
                             <summary

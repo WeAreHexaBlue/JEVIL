@@ -105,7 +105,7 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [x] `RATE_LIMITER` binding per IP/user/connection.
   - [x] `usage_daily` counters for runs and tokens.
   - [x] 429 responses with `Retry-After`.
-- [ ] A developer "Decide bench" page (`/settings/connections/:id/test` or a modal): state textarea, three question builders, raw + normalized JSON, latency, tokens.
+- [x] A developer "Decide bench" page (`/settings/connections/:id/test` or a modal): state textarea, three question builders, normalized JSON, latency, tokens.
 - [ ] Reference local bridge in `examples/laya-local-bridge/` (FastAPI or Flask) implementing the System One HTTP contract, with CORS and `/health`.
 - [ ] Contract tests with recorded fixtures for all five adapters; error-mapping table tests.
 
