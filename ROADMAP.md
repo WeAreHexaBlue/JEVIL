@@ -43,7 +43,7 @@ Later    Escape hatches     ──►  JS actions, media inputs, payments, i18n
 - [x] Add light / dark / system themes with a persisted choice, no-flash boot script, and a header toggle. Palette follows JEVIL's purple, green, and gold.
 - [x] Build the home page skeleton (hero, featured placeholder, how-it-works) and the catalog empty state.
 - [x] Add `src/lib/schema/` with shared Zod primitives (slug, handle, provider ids). Connection input arrives with Phase 1.
-- [ ] Add `src/lib/server/redact.ts` and a structured logger that drops `authorization`, `cookie`, `x-jevil-key`, and any `secret` field.
+- [x] Add `src/lib/server/redact.ts` and a structured logger that drops `authorization`, `cookie`, `x-jevil-key`, and any `secret` field.
 - [x] CI: `bun install --frozen-lockfile`, `bun run check`, `bun run test`, `bun run build`, `wrangler deploy --dry-run`.
 - [ ] Add `AGENTS.md` conventions check (commit format, Bun-only, migrations forward-only).
 

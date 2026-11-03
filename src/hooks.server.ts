@@ -1,9 +1,11 @@
 import { env } from "cloudflare:workers";
 import { getTextDirection } from "#lib/paraglide/runtime.js";
 import { paraglideMiddleware } from "#lib/paraglide/server.js";
-import { type Handle, sequence } from "@sveltejs/kit/hooks";
+import { type Handle, type HandleServerError, sequence } from "@sveltejs/kit/hooks";
 import { building } from "$app/env";
 import { getAuth } from "#lib/server/auth.ts";
+import { logEvent } from "#lib/server/log.ts";
+import { safeError } from "#lib/server/redact.ts";
 import { svelteKitHandler } from "better-auth/svelte-kit";
 
 const handleBetterAuth: Handle = async ({ event, resolve }) => {
@@ -39,3 +41,16 @@ const handleParaglide: Handle = ({ event, resolve }) =>
     });
 
 export const handle: Handle = sequence(handleBetterAuth, handleParaglide);
+
+export const handleError: HandleServerError = ({ kind, error, event }) => {
+    const known = kind === "app" || kind === "framework" || kind === "validation";
+
+    logEvent("error", "request_failed", {
+        kind,
+        // Route ids, not URLs: query strings can carry tokens.
+        route: event.route.id ?? "unmatched",
+        status: known ? error.status : 500,
+        // SvelteKit's own messages are safe; anything else may be a provider payload.
+        error: known ? { errorName: kind, errorMessage: error.message } : safeError(error)
+    });
+};
