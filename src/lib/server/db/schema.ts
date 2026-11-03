@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { user } from "./auth.schema";
 
 /**
@@ -32,6 +32,21 @@ export const profileRelations = relations(profile, ({ one }) => ({
         references: [user.id]
     })
 }));
+
+/**
+ * Per-subject daily counters (SPEC §9.2). `subject` is a user id or a hashed
+ * IP, never a raw address; no inputs, state, or answers are stored.
+ */
+export const usageDaily = sqliteTable(
+    "usage_daily",
+    {
+        subject: text("subject").notNull(),
+        day: text("day").notNull(),
+        runs: integer("runs").notNull().default(0),
+        tokens: integer("tokens").notNull().default(0)
+    },
+    (table) => [primaryKey({ columns: [table.subject, table.day] })]
+);
 
 /**
  * A provider connection owned by one account (SPEC §9.2 and §10.5).
