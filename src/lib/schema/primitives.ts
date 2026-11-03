@@ -25,6 +25,8 @@ export const slugSchema = z
 
 export const providerIdSchema = z.enum(["jev", "laya", "clef", "cloudflare", "systemone"]);
 
+export type ProviderId = z.infer<typeof providerIdSchema>;
+
 export const displayNameSchema = z.string().trim().min(1).max(60);
 
 export const emailSchema = z.string().trim().toLowerCase().max(254).pipe(z.email());

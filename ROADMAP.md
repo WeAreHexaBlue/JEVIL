@@ -73,15 +73,15 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
 
 ### Tasks
 
-- [ ] Define the normalized `DecideRequest` / `DecideResponse` / `Answer` types in `src/lib/decide/types.ts`.
-- [ ] Implement `src/lib/server/providers/`:
-  - [ ] `base.ts` — `fetchJson` (15 s timeout, 256 KB cap, no redirects, redacted errors), `normalizeAnswers`, `ProviderError`.
-  - [ ] `jev.ts` — `POST /api/v1/decide`, `Bearer jv_live_`.
-  - [ ] `laya.ts` — `POST /v1/decide`, `Bearer laya_`; models `convaiinnovations/laya`, `…/laya-multilingual`.
-  - [ ] `clef.ts` — `POST /v1/clef-omni/run/`, `Bearer sk_live_`; models `clef-omni`, `clef`, `clef-flash`.
-  - [ ] `cloudflare.ts` — `POST /client/v4/accounts/{accountId}/ai/run/@cf/cloudflare/clef`, `Bearer <CF token>`.
-  - [ ] `systemone.ts` — custom base URL, optional bearer/custom header, `/v1/decide`.
-  - [ ] `index.ts` — registry + capability metadata.
+- [x] Define the normalized `DecideRequest` / `DecideResponse` / `Answer` types in `src/lib/decide/types.ts`.
+- [x] Implement `src/lib/server/providers/`:
+  - [x] `base.ts` — `fetchJson` (15 s timeout, 256 KB cap, no redirects, redacted errors), `normalizeAnswers`, `ProviderError`.
+  - [x] `jev.ts` — `POST /api/v1/decide`, `Bearer jv_live_`.
+  - [x] `laya.ts` — `POST /v1/decide`, `Bearer laya_`; models `convaiinnovations/laya`, `…/laya-multilingual`.
+  - [x] `clef.ts` — `POST /v1/clef-omni/run/`, `Bearer sk_live_`; models `clef-omni`, `clef`, `clef-flash`.
+  - [x] `cloudflare.ts` — `POST /client/v4/accounts/{accountId}/ai/run/@cf/cloudflare/clef`, `Bearer <CF token>`.
+  - [x] `systemone.ts` — custom base URL, optional bearer/custom header, `/v1/decide`.
+  - [x] `index.ts` — registry + capability metadata.
 - [ ] Implement connection encryption:
   - [x] AES-256-GCM with WebCrypto; AAD binding to user/connection/provider/key version.
   - [x] `ENCRYPTION_KEY` + rotation map.
