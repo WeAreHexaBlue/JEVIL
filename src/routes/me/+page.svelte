@@ -86,6 +86,11 @@
                 {m.me_email({ email: data.user.email })} · {m.me_joined({ date: joined })}
             </p>
         </div>
+        <div class="sm:ml-auto">
+            <Button href={resolve("/settings/connections")} variant="secondary">
+                {m.connections_nav()}
+            </Button>
+        </div>
     </div>
 
     {#if !data.user.emailVerified}
