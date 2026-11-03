@@ -1,292 +1,292 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /* Theme is driven by [data-theme] on <html>, set before first paint by the inline
    script in app.html. "system" resolves to light or dark at runtime. */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 @theme {
-	/* Fixed accents: identical in both themes, always paired with an ink colour. */
-	--color-night: #171022;
-	--color-on-night: #ece5f7;
-	--color-lime: #b9f24d;
-	--color-on-lime: #15220a;
-	--color-gold: #ffd93d;
-	--color-on-gold: #241a00;
-	--color-pink: #ef5da8;
+    /* Fixed accents: identical in both themes, always paired with an ink colour. */
+    --color-night: #171022;
+    --color-on-night: #ece5f7;
+    --color-lime: #b9f24d;
+    --color-on-lime: #15220a;
+    --color-gold: #ffd93d;
+    --color-on-gold: #241a00;
+    --color-pink: #ef5da8;
 
-	/* Shape */
-	--radius-xs: 6px;
-	--radius-sm: 12px;
-	--radius-md: 20px;
-	--radius-lg: 28px;
-	--radius-xl: 36px;
+    /* Shape */
+    --radius-xs: 6px;
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --radius-xl: 36px;
 
-	/* Depth */
-	--shadow-soft: 0 1px 2px rgb(22 12 40 / 0.05), 0 12px 32px rgb(22 12 40 / 0.07);
-	--shadow-lift: 0 2px 0 var(--ink), 0 18px 40px rgb(22 12 40 / 0.14);
-	--shadow-press: inset 0 2px 0 rgb(22 12 40 / 0.12);
+    /* Depth */
+    --shadow-soft: 0 1px 2px rgb(22 12 40 / 0.05), 0 12px 32px rgb(22 12 40 / 0.07);
+    --shadow-lift: 0 2px 0 var(--ink), 0 18px 40px rgb(22 12 40 / 0.14);
+    --shadow-press: inset 0 2px 0 rgb(22 12 40 / 0.12);
 
-	/* Motion */
-	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-	--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-	--duration-instant: 80ms;
-	--duration-fast: 140ms;
-	--duration-base: 220ms;
-	--duration-slow: 360ms;
+    /* Motion */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --duration-instant: 80ms;
+    --duration-fast: 140ms;
+    --duration-base: 220ms;
+    --duration-slow: 360ms;
 
-	/* Type */
-	--font-display: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
-	--font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
-	--font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
+    /* Type */
+    --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+    --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
 
-	--text-display-xl: clamp(3.5rem, 10vw, 6rem);
-	--text-display-xl--line-height: 0.92;
-	--text-display-xl--letter-spacing: -0.05em;
+    --text-display-xl: clamp(3.5rem, 10vw, 6rem);
+    --text-display-xl--line-height: 0.92;
+    --text-display-xl--letter-spacing: -0.05em;
 
-	--text-display: clamp(2.75rem, 7vw, 4.5rem);
-	--text-display--line-height: 0.95;
-	--text-display--letter-spacing: -0.04em;
+    --text-display: clamp(2.75rem, 7vw, 4.5rem);
+    --text-display--line-height: 0.95;
+    --text-display--letter-spacing: -0.04em;
 
-	--text-h1: clamp(2.375rem, 5vw, 3.5rem);
-	--text-h1--line-height: 1;
-	--text-h1--letter-spacing: -0.035em;
+    --text-h1: clamp(2.375rem, 5vw, 3.5rem);
+    --text-h1--line-height: 1;
+    --text-h1--letter-spacing: -0.035em;
 
-	--text-h2: clamp(1.875rem, 4vw, 2.5rem);
-	--text-h2--line-height: 1.05;
-	--text-h2--letter-spacing: -0.03em;
+    --text-h2: clamp(1.875rem, 4vw, 2.5rem);
+    --text-h2--line-height: 1.05;
+    --text-h2--letter-spacing: -0.03em;
 
-	--text-h3: clamp(1.5rem, 2.5vw, 1.75rem);
-	--text-h3--line-height: 1.15;
-	--text-h3--letter-spacing: -0.02em;
+    --text-h3: clamp(1.5rem, 2.5vw, 1.75rem);
+    --text-h3--line-height: 1.15;
+    --text-h3--letter-spacing: -0.02em;
 
-	--text-h4: clamp(1.25rem, 1.6vw, 1.375rem);
-	--text-h4--line-height: 1.25;
-	--text-h4--letter-spacing: -0.01em;
+    --text-h4: clamp(1.25rem, 1.6vw, 1.375rem);
+    --text-h4--line-height: 1.25;
+    --text-h4--letter-spacing: -0.01em;
 
-	--text-body-lg: 1.1875rem;
-	--text-body-lg--line-height: 1.55;
+    --text-body-lg: 1.1875rem;
+    --text-body-lg--line-height: 1.55;
 
-	--text-body: 1rem;
-	--text-body--line-height: 1.6;
+    --text-body: 1rem;
+    --text-body--line-height: 1.6;
 
-	--text-small: 0.875rem;
-	--text-small--line-height: 1.5;
+    --text-small: 0.875rem;
+    --text-small--line-height: 1.5;
 
-	--text-micro: 0.75rem;
-	--text-micro--line-height: 1.4;
-	--text-micro--letter-spacing: 0.04em;
+    --text-micro: 0.75rem;
+    --text-micro--line-height: 1.4;
+    --text-micro--letter-spacing: 0.04em;
 }
 
 /* Semantic colours read runtime variables so a single [data-theme] switch
    repaints every utility. */
 @theme inline {
-	--color-paper: var(--paper);
-	--color-paper-2: var(--paper-2);
-	--color-paper-3: var(--paper-3);
-	--color-ink: var(--ink);
-	--color-ink-2: var(--ink-2);
-	--color-muted: var(--muted);
-	--color-line: var(--line);
-	--color-brand: var(--brand);
-	--color-on-brand: var(--on-brand);
-	--color-brand-strong: var(--brand-strong);
-	--color-brand-soft: var(--brand-soft);
-	--color-violet: var(--violet);
-	--color-green: var(--green);
-	--color-red: var(--red);
-	--color-focus: var(--focus);
+    --color-paper: var(--paper);
+    --color-paper-2: var(--paper-2);
+    --color-paper-3: var(--paper-3);
+    --color-ink: var(--ink);
+    --color-ink-2: var(--ink-2);
+    --color-muted: var(--muted);
+    --color-line: var(--line);
+    --color-brand: var(--brand);
+    --color-on-brand: var(--on-brand);
+    --color-brand-strong: var(--brand-strong);
+    --color-brand-soft: var(--brand-soft);
+    --color-violet: var(--violet);
+    --color-green: var(--green);
+    --color-red: var(--red);
+    --color-focus: var(--focus);
 }
 
 :root {
-	color-scheme: light;
+    color-scheme: light;
 
-	--paper: #f7f4ff;
-	--paper-2: #efebfa;
-	--paper-3: #e3dcf2;
-	--ink: #171123;
-	--ink-2: #3d3450;
-	--muted: #6c6287;
-	--line: #d9d0ea;
+    --paper: #f7f4ff;
+    --paper-2: #efebfa;
+    --paper-3: #e3dcf2;
+    --ink: #171123;
+    --ink-2: #3d3450;
+    --muted: #6c6287;
+    --line: #d9d0ea;
 
-	--brand: #5b21b6;
-	--on-brand: #ffffff;
-	--brand-strong: #4c1d95;
-	--brand-soft: #ece4ff;
-	--violet: #7c3aed;
-	--green: #1f7a45;
-	--red: #b42318;
-	--focus: #6d28d9;
+    --brand: #5b21b6;
+    --on-brand: #ffffff;
+    --brand-strong: #4c1d95;
+    --brand-soft: #ece4ff;
+    --violet: #7c3aed;
+    --green: #1f7a45;
+    --red: #b42318;
+    --focus: #6d28d9;
 }
 
-[data-theme='dark'] {
-	color-scheme: dark;
+[data-theme="dark"] {
+    color-scheme: dark;
 
-	--paper: #120e19;
-	--paper-2: #1b1425;
-	--paper-3: #271d35;
-	--ink: #f4efff;
-	--ink-2: #d3c9e5;
-	--muted: #a397bd;
-	--line: #372a49;
+    --paper: #120e19;
+    --paper-2: #1b1425;
+    --paper-3: #271d35;
+    --ink: #f4efff;
+    --ink-2: #d3c9e5;
+    --muted: #a397bd;
+    --line: #372a49;
 
-	--brand: #a78bfa;
-	--on-brand: #180f26;
-	--brand-strong: #c4b5fd;
-	--brand-soft: #241a38;
-	--violet: #c4b5fd;
-	--green: #6ee7a0;
-	--red: #fca5a5;
-	--focus: #c4b5fd;
+    --brand: #a78bfa;
+    --on-brand: #180f26;
+    --brand-strong: #c4b5fd;
+    --brand-soft: #241a38;
+    --violet: #c4b5fd;
+    --green: #6ee7a0;
+    --red: #fca5a5;
+    --focus: #c4b5fd;
 
-	--shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px rgb(0 0 0 / 0.45);
-	--shadow-lift: 0 2px 0 var(--ink), 0 18px 40px rgb(0 0 0 / 0.55);
-	--shadow-press: inset 0 2px 0 rgb(0 0 0 / 0.4);
+    --shadow-soft: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px rgb(0 0 0 / 0.45);
+    --shadow-lift: 0 2px 0 var(--ink), 0 18px 40px rgb(0 0 0 / 0.55);
+    --shadow-press: inset 0 2px 0 rgb(0 0 0 / 0.4);
 }
 
 @layer base {
-	html {
-		-webkit-text-size-adjust: 100%;
-		scroll-padding-top: 5rem;
-		background-color: var(--paper);
-	}
+    html {
+        -webkit-text-size-adjust: 100%;
+        scroll-padding-top: 5rem;
+        background-color: var(--paper);
+    }
 
-	@media (prefers-reduced-motion: no-preference) {
-		html {
-			scroll-behavior: smooth;
-		}
+    @media (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
 
-		html,
-		body {
-			transition:
-				background-color var(--duration-base) var(--ease-out),
-				color var(--duration-base) var(--ease-out);
-		}
-	}
+        html,
+        body {
+            transition:
+                background-color var(--duration-base) var(--ease-out),
+                color var(--duration-base) var(--ease-out);
+        }
+    }
 
-	body {
-		background-color: var(--paper);
-		color: var(--ink);
-		font-family: var(--font-sans);
-		font-size: var(--text-body);
-		line-height: var(--text-body--line-height);
-		-webkit-font-smoothing: antialiased;
-		text-rendering: optimizeLegibility;
-	}
+    body {
+        background-color: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: var(--text-body);
+        line-height: var(--text-body--line-height);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
 
-	/* Warm grain. Decorative, never interactive. */
-	body::after {
-		content: '';
-		position: fixed;
-		inset: 0;
-		z-index: 30;
-		pointer-events: none;
-		opacity: 0.035;
-		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-	}
+    /* Warm grain. Decorative, never interactive. */
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        pointer-events: none;
+        opacity: 0.035;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
 
-	[data-theme='dark'] body::after {
-		opacity: 0.05;
-	}
+    [data-theme="dark"] body::after {
+        opacity: 0.05;
+    }
 
-	h1,
-	h2,
-	h3,
-	h4 {
-		font-family: var(--font-display);
-		font-weight: 700;
-		text-wrap: balance;
-	}
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        text-wrap: balance;
+    }
 
-	p {
-		text-wrap: pretty;
-	}
+    p {
+        text-wrap: pretty;
+    }
 
-	::selection {
-		background-color: var(--brand);
-		color: var(--on-brand);
-	}
+    ::selection {
+        background-color: var(--brand);
+        color: var(--on-brand);
+    }
 
-	:focus-visible {
-		outline: 3px solid var(--focus);
-		outline-offset: 2px;
-	}
+    :focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 2px;
+    }
 
-	@media (prefers-reduced-transparency: reduce) {
-		body::after {
-			display: none;
-		}
-	}
+    @media (prefers-reduced-transparency: reduce) {
+        body::after {
+            display: none;
+        }
+    }
 }
 
 @layer components {
-	.container-page {
-		width: 100%;
-		max-width: 1240px;
-		margin-inline: auto;
-		padding-inline: 1rem;
-	}
+    .container-page {
+        width: 100%;
+        max-width: 1240px;
+        margin-inline: auto;
+        padding-inline: 1rem;
+    }
 
-	@media (min-width: 768px) {
-		.container-page {
-			padding-inline: 1.5rem;
-		}
-	}
+    @media (min-width: 768px) {
+        .container-page {
+            padding-inline: 1.5rem;
+        }
+    }
 
-	.eyebrow {
-		font-family: var(--font-mono);
-		font-size: var(--text-micro);
-		line-height: var(--text-micro--line-height);
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--muted);
-	}
+    .eyebrow {
+        font-family: var(--font-mono);
+        font-size: var(--text-micro);
+        line-height: var(--text-micro--line-height);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
 
-	.measure {
-		max-width: 64ch;
-	}
+    .measure {
+        max-width: 64ch;
+    }
 
-	/* JEVIL gradient: violet through lime to gold. For dark surfaces only. */
-	.text-gradient {
-		background-image: linear-gradient(100deg, #c4b5fd 0%, #b9f24d 62%, #ffd93d 100%);
-		background-clip: text;
-		-webkit-background-clip: text;
-		color: transparent;
-	}
+    /* JEVIL gradient: violet through lime to gold. For dark surfaces only. */
+    .text-gradient {
+        background-image: linear-gradient(100deg, #c4b5fd 0%, #b9f24d 62%, #ffd93d 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+    }
 
-	/* Interactive card lift, only on cards that are links. */
-	.card-lift {
-		transition:
-			transform var(--duration-base) var(--ease-spring),
-			box-shadow var(--duration-base) var(--ease-out);
-	}
+    /* Interactive card lift, only on cards that are links. */
+    .card-lift {
+        transition:
+            transform var(--duration-base) var(--ease-spring),
+            box-shadow var(--duration-base) var(--ease-out);
+    }
 
-	.card-lift:hover {
-		transform: translateY(-4px) rotate(-1deg);
-		box-shadow: var(--shadow-lift);
-	}
+    .card-lift:hover {
+        transform: translateY(-4px) rotate(-1deg);
+        box-shadow: var(--shadow-lift);
+    }
 
-	.card-lift:active {
-		transform: translateY(-1px) rotate(-1deg) scale(0.99);
-	}
+    .card-lift:active {
+        transform: translateY(-1px) rotate(-1deg) scale(0.99);
+    }
 
-	.dotted-grid {
-		background-image: radial-gradient(var(--line) 1px, transparent 1px);
-		background-size: 16px 16px;
-	}
+    .dotted-grid {
+        background-image: radial-gradient(var(--line) 1px, transparent 1px);
+        background-size: 16px 16px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
-		scroll-behavior: auto !important;
-	}
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 
-	.card-lift:hover,
-	.card-lift:active {
-		transform: none;
-	}
+    .card-lift:hover,
+    .card-lift:active {
+        transform: none;
+    }
 }

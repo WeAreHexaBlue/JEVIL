@@ -1,20 +1,20 @@
 {
-	"extends": "$app/tsconfig",
-	"compilerOptions": {
-		"strict": true,
-		"checkJs": false,
-		"paths": {
-			"#lib": ["./src/lib/index.ts"],
-			"#lib/*": ["./src/lib/*"]
-		},
-		"types": ["$app/types", "./worker-configuration.d.ts", "node"]
-	},
-	"include": [
-		"src",
-		"vite.config.ts",
-		"prettier.config.js",
-		"eslint.config.js",
-		"drizzle.config.ts"
-	],
-	"exclude": ["src/lib/paraglide"]
+    "extends": "$app/tsconfig",
+    "compilerOptions": {
+        "strict": true,
+        "checkJs": false,
+        "paths": {
+            "#lib": ["./src/lib/index.ts"],
+            "#lib/*": ["./src/lib/*"]
+        },
+        "types": ["$app/types", "./worker-configuration.d.ts", "node"]
+    },
+    "include": [
+        "src",
+        "vite.config.ts",
+        "prettier.config.js",
+        "eslint.config.js",
+        "drizzle.config.ts"
+    ],
+    "exclude": ["src/lib/paraglide"]
 }

@@ -1,4 +1,4 @@
-import { createAuth } from './auth';
+import { createAuth } from "./auth";
 
 /**
  * Schema-generation entry point for the Better Auth CLI.
