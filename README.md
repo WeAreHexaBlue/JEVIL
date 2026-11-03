@@ -28,6 +28,7 @@ Phase 0 — foundations. The shell, auth, design tokens, D1 schema, and CI exist
 3. [docs/APP-FORMAT.md](./docs/APP-FORMAT.md) — the `jevil/app@1` blueprint schema
 4. [docs/DESIGN.md](./docs/DESIGN.md) — visual system
 5. [AGENTS.md](./AGENTS.md) — contribution rules and commit format
+6. [docs/SETUP.md](./docs/SETUP.md) — manual OAuth, D1, email, and deploy steps
 
 ## Local setup
 
@@ -44,17 +45,19 @@ bun run dev
 
 The dev server runs SvelteKit with Wrangler's platform proxy, so the `DB` binding and local D1 database work without a remote account.
 
+For OAuth apps, Resend, remote D1, production secrets, and troubleshooting, follow [docs/SETUP.md](./docs/SETUP.md).
+
 ### Environment
 
-| Variable                                    | Required | Purpose                                        |
-| ------------------------------------------- | -------- | ---------------------------------------------- |
-| `ORIGIN`                                    | yes      | Canonical origin, e.g. `http://localhost:5173` |
-| `BETTER_AUTH_SECRET`                        | yes      | Session signing secret, 32+ random bytes       |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | no       | Enables Google sign-in                         |
-| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | no       | Enables GitHub sign-in                         |
-| `ENCRYPTION_KEY`                            | later    | Provider credential encryption                 |
-| `ENCRYPTION_KEYS`                           | no       | Rotation map; overrides `ENCRYPTION_KEY`       |
-| `RESEND_API_KEY` / `EMAIL_FROM`             | no       | Verification and reset email; console in dev   |
+| Variable                                    | Required        | Purpose                                        |
+| ------------------------------------------- | --------------- | ---------------------------------------------- |
+| `ORIGIN`                                    | yes             | Canonical origin, e.g. `http://localhost:5173` |
+| `BETTER_AUTH_SECRET`                        | yes             | Session signing secret, 32+ random bytes       |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | no              | Enables Google sign-in                         |
+| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | no              | Enables GitHub sign-in                         |
+| `ENCRYPTION_KEY`                            | for connections | Provider credential encryption                 |
+| `ENCRYPTION_KEYS`                           | no              | Rotation map; overrides `ENCRYPTION_KEY`       |
+| `RESEND_API_KEY` / `EMAIL_FROM`             | no              | Verification and reset email; console in dev   |
 
 OAuth callback URLs: `/api/auth/callback/google` and `/api/auth/callback/github`.
 
