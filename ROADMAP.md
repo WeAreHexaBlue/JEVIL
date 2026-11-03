@@ -86,11 +86,11 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [x] AES-256-GCM with WebCrypto; AAD binding to user/connection/provider/key version.
   - [x] `ENCRYPTION_KEY` + rotation map.
   - [x] Round-trip tests; tamper tests; wrong-AAD tests.
-- [ ] Connection CRUD API + settings UI:
-  - [ ] `GET/POST /api/connections`, `PATCH/DELETE /api/connections/:id`.
-  - [ ] `POST /api/connections/:id/test` (health/validation call).
-  - [ ] Provider picker with prefilled base URLs, model selector, "test" button, status badge.
-  - [ ] Never render the secret after save; show `•••• last4`.
+- [x] Connection CRUD API + settings UI:
+  - [x] `GET/POST /api/connections`, `PATCH/DELETE /api/connections/:id`.
+  - [x] `POST /api/connections/:id/test` (health/validation call).
+  - [x] Provider picker with prefilled base URLs, model selector, "test" button, status badge.
+  - [x] Never render the secret after save; show `•••• last4`.
 - [ ] Guest connections:
   - [ ] IndexedDB store (`idb-keyval` or a tiny wrapper) with versioned schema.
   - [ ] `POST /api/proxy/decide` with ephemeral `X-Jevil-Provider` / `Base-Url` / `Model` / `Key` headers.
@@ -100,7 +100,7 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [ ] Detect `localhost` / `127.0.0.1` / `[::1]`; route direct from the browser.
   - [ ] CORS help panel with a copy-paste `Access-Control-Allow-Origin` snippet and `curl /health` check.
   - [ ] Clear failure state when CORS blocks the request.
-- [ ] SSRF guard for custom/proxy endpoints: scheme, host, private ranges, redirects, ports.
+- [x] SSRF guard for custom/proxy endpoints: scheme, host, private ranges, redirects, ports.
 - [ ] Rate limiting:
   - [ ] `RATE_LIMITER` binding per IP/user/connection.
   - [ ] `usage_daily` counters for runs and tokens.
