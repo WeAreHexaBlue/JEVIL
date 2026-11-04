@@ -1,0 +1,16 @@
+{
+    "model": "local-laya",
+    "answers": {
+        "palette": {
+            "choice": "dawn",
+            "confidence": 1,
+            "probabilities": { "dusk": 0, "dawn": 1, "moss": 0 }
+        },
+        "energy": {
+            "level": 2,
+            "probabilities": { "calm": 0, "steady": 0.3, "loud": 0.7 }
+        },
+        "spark": { "noul": 0.5 }
+    },
+    "usage": { "input_tokens": 0, "output_tokens": 0 }
+}

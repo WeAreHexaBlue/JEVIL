@@ -1,0 +1,14 @@
+{
+    "model": "@cf/cloudflare/clef",
+    "answers": {
+        "palette": {
+            "choice": "moss",
+            "confidence": 0.9,
+            "probabilities": { "moss": 0.9, "dusk": 0.1 }
+        },
+        "energy": { "level": 0 },
+        "spark": { "noul": 0.15 },
+        "unused": { "choice": "dusk" }
+    },
+    "usage": { "input_tokens": 30, "output_tokens": 8, "billed_tokens": 38 }
+}

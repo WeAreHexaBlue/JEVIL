@@ -1,0 +1,16 @@
+{
+    "answers": {
+        "palette": {
+            "choice": "moss",
+            "confidence": 0.62,
+            "probabilities": { "dusk": 0.18, "dawn": 0.2, "moss": 0.62 }
+        },
+        "energy": {
+            "level": 2,
+            "confidence": 0.55,
+            "probabilities": { "calm": 0.1, "steady": 0.35, "loud": 0.55 }
+        },
+        "spark": { "noul": 0.8 }
+    },
+    "usage": { "input_tokens": 40, "output_tokens": 12 }
+}

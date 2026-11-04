@@ -1,0 +1,15 @@
+{
+    "model": "convaiinnovations/laya",
+    "answers": {
+        "palette": {
+            "choice": "dusk",
+            "probabilities": { "dusk": 42, "dawn": 33, "moss": 25 }
+        },
+        "energy": {
+            "level": 1,
+            "probabilities": { "0": 0.25, "1": 0.5, "2": 0.25 }
+        },
+        "spark": { "probability": 1.4 }
+    },
+    "usage": { "billed_tokens": 20 }
+}

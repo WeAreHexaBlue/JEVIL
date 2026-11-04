@@ -1,0 +1,12 @@
+{
+    "model": "clef-omni",
+    "answers": {
+        "palette": {
+            "choice": "dawn",
+            "probabilities": { "dawn": 0.5 }
+        },
+        "energy": { "raw_score": 2.6 },
+        "spark": { "noul": -3 }
+    },
+    "meta": { "request_id": "req_fixture" }
+}

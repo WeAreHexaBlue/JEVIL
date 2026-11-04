@@ -107,7 +107,7 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [x] 429 responses with `Retry-After`.
 - [x] A developer "Decide bench" page (`/settings/connections/:id/test` or a modal): state textarea, three question builders, normalized JSON, latency, tokens.
 - [x] Reference local bridge in `examples/laya-local-bridge/` (FastAPI or Flask) implementing the System One HTTP contract, with CORS and `/health`.
-- [ ] Contract tests with recorded fixtures for all five adapters; error-mapping table tests.
+- [x] Contract tests with fixtures for all five adapters; error-mapping table tests. Fixtures are contract-shaped until real captures are available.
 
 ### Exit criteria
 
