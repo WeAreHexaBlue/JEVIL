@@ -2,7 +2,7 @@ import { env, waitUntil } from "cloudflare:workers";
 import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { m } from "#lib/paraglide/messages";
-import { decideRequestSchema, questionsSchema } from "#lib/decide/types";
+import { buildBenchRequest, type BenchValues } from "#lib/decide/bench";
 import { getKeyRing } from "#lib/server/config";
 import {
     getConnection,
@@ -19,19 +19,7 @@ import { logEvent } from "#lib/server/log";
 
 const text = (data: FormData, key: string): string => String(data.get(key) ?? "").trim();
 
-const list = (data: FormData, key: string): string[] => {
-    const seen = new Set<string>();
-    return String(data.get(key) ?? "")
-        .split(/[\n,]/)
-        .map((value) => value.trim())
-        .filter((value) => {
-            if (!value || seen.has(value)) return false;
-            seen.add(value);
-            return true;
-        });
-};
-
-const valuesOf = (data: FormData) => ({
+const valuesOf = (data: FormData): BenchValues => ({
     state: text(data, "state"),
     choiceInstructions: text(data, "choiceInstructions"),
     choiceOptions: text(data, "choiceOptions"),
@@ -39,28 +27,6 @@ const valuesOf = (data: FormData) => ({
     scoreLevels: text(data, "scoreLevels"),
     noulInstructions: text(data, "noulInstructions")
 });
-
-const buildQuestions = (data: FormData) => {
-    const options = list(data, "choiceOptions").slice(0, 8);
-    const levels = list(data, "scoreLevels").slice(0, 10);
-
-    return questionsSchema.parse({
-        mood: {
-            type: "choice",
-            instructions: text(data, "choiceInstructions") || "Pick the closest option.",
-            criteria: Object.fromEntries(options.map((option) => [option, option]))
-        },
-        energy: {
-            type: "score",
-            instructions: text(data, "scoreInstructions") || "How intense is it?",
-            criteria: levels.length >= 2 ? levels : ["quiet", "steady", "loud"]
-        },
-        spark: {
-            type: "noul",
-            instructions: text(data, "noulInstructions") || "How much does it spark?"
-        }
-    });
-};
 
 const errorMessage = (failure: unknown): string => {
     if (failure instanceof ProviderError) return `${failure.code}: ${failure.message}`;
@@ -96,12 +62,9 @@ export const actions: Actions = {
         const data = await request.formData();
         const values = valuesOf(data);
 
-        let decideRequest: ReturnType<typeof decideRequestSchema.parse>;
+        let decideRequest;
         try {
-            decideRequest = decideRequestSchema.parse({
-                state: values.state,
-                questions: buildQuestions(data)
-            });
+            decideRequest = buildBenchRequest(values);
         } catch {
             return fail(400, { error: m.bench_invalid(), values });
         }

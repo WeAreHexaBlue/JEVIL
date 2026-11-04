@@ -46,6 +46,15 @@ describe("makeGuestConnection", () => {
         expect(row?.secret).toBeUndefined();
     });
 
+    it("keeps a Cloudflare account id", () => {
+        const row = makeGuestConnection(
+            { ...cloud, provider: "cloudflare", accountId: "  acct_123  " },
+            { id: "g", now: 1 }
+        );
+        expect(row?.accountId).toBe("acct_123");
+        expect(makeGuestConnection({ ...cloud, accountId: "bad id" })).toBeNull();
+    });
+
     it("keeps an optional custom header", () => {
         const row = makeGuestConnection({ ...cloud, headerName: "x-api-key" }, { id: "g", now: 1 });
         expect(row).toMatchObject({ secret: "sk-live-123", headerName: "x-api-key" });

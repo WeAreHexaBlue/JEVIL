@@ -1,5 +1,6 @@
 <script lang="ts">
     import { resolve } from "$app/paths";
+    import { defaultBenchValues } from "#lib/decide/bench";
     import { m } from "#lib/paraglide/messages";
     import Button from "#lib/components/Button.svelte";
     import { errorClass, inputClass, labelClass } from "#lib/components/field-styles";
@@ -33,14 +34,7 @@
         return (result.usage.input_tokens ?? 0) + (result.usage.output_tokens ?? 0);
     });
 
-    const defaults = {
-        state: "",
-        choiceInstructions: "Pick the palette that fits.",
-        choiceOptions: "dusk, dawn, neon",
-        scoreInstructions: "How intense is the mood?",
-        scoreLevels: "calm, steady, electric",
-        noulInstructions: "Does it spark joy?"
-    };
+    const defaults = defaultBenchValues;
 </script>
 
 <svelte:head>

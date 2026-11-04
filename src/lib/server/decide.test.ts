@@ -133,6 +133,30 @@ describe("guestConnection", () => {
         ).toThrow(ConnectionError);
     });
 
+    it("passes a Cloudflare account id through and rejects a malformed one", () => {
+        const connection = guestConnection(
+            headers({
+                "x-jevil-provider": "cloudflare",
+                "x-jevil-key": "cf_test",
+                "x-jevil-account-id": " acct_123 "
+            }),
+            dev
+        );
+
+        expect(connection.config).toEqual({ accountId: "acct_123" });
+
+        expect(() =>
+            guestConnection(
+                headers({
+                    "x-jevil-provider": "cloudflare",
+                    "x-jevil-key": "cf_test",
+                    "x-jevil-account-id": "not an id"
+                }),
+                dev
+            )
+        ).toThrow(ConnectionError);
+    });
+
     it("validates a remote override URL", () => {
         expect(() =>
             guestConnection(

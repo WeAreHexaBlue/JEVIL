@@ -22,6 +22,12 @@ const guestConnectionFields = z.strictObject({
         .regex(/^[A-Za-z0-9@/._-]+$/, "That model id is not valid.")
         .optional(),
     secret: z.string().max(4096).optional(),
+    accountId: z
+        .string()
+        .trim()
+        .max(64)
+        .regex(/^[A-Za-z0-9_-]+$/, "That account id is not valid.")
+        .optional(),
     headerName: z
         .string()
         .trim()

@@ -281,7 +281,7 @@ Cloudflare Worker
    - Build `questions` from the blueprint.
    - Call the transport:
      - **Account:** `POST /api/decide` with `{ connectionId, state, questions, model }`. The server checks the session, decrypts the key, calls the provider, normalizes, and returns answers. The key never reaches the client.
-     - **Guest cloud:** `POST /api/proxy/decide` with `X-Jevil-Provider`, `X-Jevil-Base-Url`, `X-Jevil-Model`, and `X-Jevil-Key`. The server validates the host, forwards, normalizes, and discards the key. No DB write, no logging.
+     - **Guest cloud:** `POST /api/proxy/decide` with `X-Jevil-Provider`, `X-Jevil-Base-Url`, `X-Jevil-Model`, `X-Jevil-Key`, and, for Cloudflare, `X-Jevil-Account-Id`. The server validates the host, forwards, normalizes, and discards the key. No DB write, no logging.
      - **Local:** direct `fetch` to the user's endpoint. No JEVIL server involvement.
 3. Store answers in the run scope. Compute derived variables.
 4. Render the UI. Pending steps show skeletons; errors show an inline `ErrorNote` with retry.

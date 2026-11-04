@@ -79,6 +79,7 @@ export const guestConnection = (headers: Headers, policy: EndpointPolicy): Resol
     const baseUrl = guestHeader(headers, "x-jevil-base-url");
     const model = guestHeader(headers, "x-jevil-model");
     const key = guestHeader(headers, "x-jevil-key");
+    const accountId = guestHeader(headers, "x-jevil-account-id");
 
     if (provider.data === "systemone") {
         throw new ConnectionError(
@@ -97,11 +98,15 @@ export const guestConnection = (headers: Headers, policy: EndpointPolicy): Resol
 
     if (!key) throw new ConnectionError("invalid", "This provider needs a credential");
 
+    if (accountId.length > 0 && !/^[A-Za-z0-9_-]{1,64}$/.test(accountId)) {
+        throw new ConnectionError("invalid", "That Cloudflare account id is not valid");
+    }
+
     return {
         provider: provider.data,
         baseUrl,
         model: model.length > 0 ? model : undefined,
-        config: {},
+        config: accountId.length > 0 ? { accountId } : {},
         secret: key
     };
 };

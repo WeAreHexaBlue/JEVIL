@@ -93,7 +93,7 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [x] Never render the secret after save; show `•••• last4`.
 - [ ] Guest connections:
   - [x] IndexedDB store (`idb-keyval` or a tiny wrapper) with versioned schema.
-  - [x] `POST /api/proxy/decide` with ephemeral `X-Jevil-Provider` / `Base-Url` / `Model` / `Key` headers.
+  - [x] `POST /api/proxy/decide` with ephemeral `X-Jevil-Provider` / `Base-Url` / `Model` / `Key` / `Account-Id` headers.
   - [x] No DB write, no body logging, `Cache-Control: no-store`.
   - [ ] Migration prompt on sign-in: import guest connections into encrypted account connections.
 - [ ] Local endpoint mode:
