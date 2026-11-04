@@ -8,7 +8,7 @@ A word goes in, a palette comes out. A vibe goes in, a score comes out. No chat 
 
 ## Status
 
-Phase 0 — foundations. The shell, auth, design tokens, D1 schema, and CI exist. Model calls and the app runtime are next. See [ROADMAP.md](./ROADMAP.md).
+Phases 0–1 — foundations and connections. The shell, auth, design tokens, D1 schema, encrypted connections, guest and local endpoints, and the decide bench exist. The app runtime is next. See [ROADMAP.md](./ROADMAP.md).
 
 ## Stack
 

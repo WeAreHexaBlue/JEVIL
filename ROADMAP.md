@@ -82,7 +82,7 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [x] `cloudflare.ts` — `POST /client/v4/accounts/{accountId}/ai/run/@cf/cloudflare/clef`, `Bearer <CF token>`.
   - [x] `systemone.ts` — custom base URL, optional bearer/custom header, `/v1/decide`.
   - [x] `index.ts` — registry + capability metadata.
-- [ ] Implement connection encryption:
+- [x] Implement connection encryption:
   - [x] AES-256-GCM with WebCrypto; AAD binding to user/connection/provider/key version.
   - [x] `ENCRYPTION_KEY` + rotation map.
   - [x] Round-trip tests; tamper tests; wrong-AAD tests.
@@ -91,12 +91,12 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [x] `POST /api/connections/:id/test` (health/validation call).
   - [x] Provider picker with prefilled base URLs, model selector, "test" button, status badge.
   - [x] Never render the secret after save; show `•••• last4`.
-- [ ] Guest connections:
+- [x] Guest connections:
   - [x] IndexedDB store (`idb-keyval` or a tiny wrapper) with versioned schema.
   - [x] `POST /api/proxy/decide` with ephemeral `X-Jevil-Provider` / `Base-Url` / `Model` / `Key` / `Account-Id` headers.
   - [x] No DB write, no body logging, `Cache-Control: no-store`.
   - [x] Migration prompt on sign-in: import guest connections into encrypted account connections.
-- [ ] Local endpoint mode:
+- [x] Local endpoint mode:
   - [x] Detect `localhost` / `127.0.0.1` / `[::1]`; route direct from the browser.
   - [x] CORS help panel with a copy-paste `Access-Control-Allow-Origin` snippet and `curl /health` check.
   - [x] Clear failure state when CORS blocks the request.
