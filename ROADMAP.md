@@ -95,11 +95,11 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
   - [x] IndexedDB store (`idb-keyval` or a tiny wrapper) with versioned schema.
   - [x] `POST /api/proxy/decide` with ephemeral `X-Jevil-Provider` / `Base-Url` / `Model` / `Key` / `Account-Id` headers.
   - [x] No DB write, no body logging, `Cache-Control: no-store`.
-  - [ ] Migration prompt on sign-in: import guest connections into encrypted account connections.
+  - [x] Migration prompt on sign-in: import guest connections into encrypted account connections.
 - [ ] Local endpoint mode:
   - [x] Detect `localhost` / `127.0.0.1` / `[::1]`; route direct from the browser.
-  - [ ] CORS help panel with a copy-paste `Access-Control-Allow-Origin` snippet and `curl /health` check.
-  - [ ] Clear failure state when CORS blocks the request.
+  - [x] CORS help panel with a copy-paste `Access-Control-Allow-Origin` snippet and `curl /health` check.
+  - [x] Clear failure state when CORS blocks the request.
 - [x] SSRF guard for custom/proxy endpoints: scheme, host, private ranges, redirects, ports.
 - [x] Rate limiting:
   - [x] `RATE_LIMITER` binding per IP/user/connection.

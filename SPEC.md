@@ -422,7 +422,7 @@ A reference Flask bridge lives in `examples/laya-local-bridge/`. It implements t
 | **Guest** | Browser IndexedDB | Server proxy with ephemeral key header | Anonymous runners with cloud keys |
 | **Local** | Browser IndexedDB (URL only, optional token) | Direct browser fetch | `localhost` model servers; server cannot reach the user's machine |
 
-**Migration:** when a guest signs in, offer to import guest connections into encrypted account connections. Delete the browser copy only after a successful save.
+**Migration:** when a guest signs in, offer to import guest connections into encrypted account connections. Delete the browser copy only after a successful save. Only hosted cloud keys migrate; local endpoints stay in the browser because the server cannot reach them.
 
 ### 10.6 Key encryption
 

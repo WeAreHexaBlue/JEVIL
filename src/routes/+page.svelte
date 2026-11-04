@@ -40,6 +40,15 @@
             >
         </div>
 
+        <p class="mt-4 text-small">
+            <a
+                href={resolve("/settings/connections")}
+                class="font-semibold text-brand underline underline-offset-4 hover:text-ink"
+            >
+                {m.hero_connections()}
+            </a>
+        </p>
+
         <p class="mt-8 font-mono text-micro text-muted">{m.hero_models()}</p>
     </div>
 

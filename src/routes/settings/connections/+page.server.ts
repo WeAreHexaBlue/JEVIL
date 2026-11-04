@@ -14,6 +14,7 @@ import {
 } from "#lib/server/connections";
 import { getDb } from "#lib/server/db";
 import { adapterList } from "#lib/server/providers";
+import { guestConnectionInput, parseGuestImport } from "#lib/server/guest-import";
 
 const text = (data: FormData, key: string): string => String(data.get(key) ?? "").trim();
 
@@ -45,14 +46,22 @@ const errorMessage = (error: unknown): string => {
 };
 
 export const load: PageServerLoad = async ({ locals, url }) => {
+    // Guests get the same page, backed by IndexedDB instead of D1. Their keys
+    // never reach the server; only the encryption-backed forms below need auth.
     if (!locals.user) {
-        redirect(303, `/sign-in?next=${encodeURIComponent(url.pathname)}`);
+        return {
+            connections: [],
+            providers: providerInfo,
+            notice: null,
+            guest: true
+        };
     }
 
     return {
         connections: await listConnections(getDb(env.DB), locals.user.id),
         providers: providerInfo,
-        notice: url.searchParams.get("notice")
+        notice: url.searchParams.get("notice"),
+        guest: false
     };
 };
 
@@ -127,6 +136,43 @@ export const actions: Actions = {
         }
 
         redirect(303, "/settings/connections?notice=saved");
+    },
+
+    import: async ({ locals, request }) => {
+        if (!locals.user) redirect(303, "/sign-in?next=/settings/connections");
+
+        const data = await request.formData();
+        const parsed = parseGuestImport(String(data.get("connections") ?? ""));
+        if (!parsed) {
+            return fail(400, { action: "import", error: m.connections_import_failed() });
+        }
+
+        const db = getDb(env.DB);
+        const ring = await getKeyRing();
+        const policy = endpointPolicy();
+        const ids: string[] = [];
+        let skipped = parsed.skipped;
+
+        for (const guest of parsed.connections) {
+            try {
+                await createConnection({
+                    db,
+                    ring,
+                    userId: locals.user.id,
+                    input: guestConnectionInput(guest),
+                    policy
+                });
+                ids.push(guest.id);
+            } catch {
+                skipped += 1;
+            }
+        }
+
+        if (ids.length === 0) {
+            return fail(400, { action: "import", error: m.connections_import_failed() });
+        }
+
+        return { action: "import", imported: ids.length, skipped, ids };
     },
 
     delete: async ({ locals, request }) => {
