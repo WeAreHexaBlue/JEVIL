@@ -140,11 +140,11 @@ Connect Jev with a real key → test → connect a local Laya bridge → run the
   - [x] `meta`, `inputs`, `steps`, `vars`, `ui`, `actions`.
   - [x] Semantic validation: unique IDs, valid bindings, question references, criteria sizes, state length, node count.
   - [x] Human-readable validation errors with JSON pointers.
-- [ ] Build the expression/binding engine:
-  - [ ] `{ lit }`, `{ var }`, `{ template }`, `{ step, question }`.
-  - [ ] Transforms: `lerp`, `clamp`, `round`, `lookup`, `mapRange`, `default`, `concat`.
-  - [ ] Builtins: `palette`, `hsl`, `contrastText`, `formatNumber`, `pick` (seeded).
-  - [ ] Cycle detection + missing-value fallbacks.
+- [x] Build the expression/binding engine:
+  - [x] `{ lit }`, `{ var }`, `{ template }`, `{ step, question }`.
+  - [x] Transforms: `lerp`, `clamp`, `round`, `lookup`, `mapRange`, `default`, `concat`.
+  - [x] Builtins: `palette`, `hsl`, `contrastText`, `formatNumber`, `pick` (seeded).
+  - [x] Cycle detection + missing-value fallbacks.
 - [ ] Build the runtime:
   - [ ] Scope initialization (inputs, answers, vars).
   - [ ] Ordered decide steps with abort/timeout and per-step error states.

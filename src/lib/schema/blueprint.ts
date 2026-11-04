@@ -13,6 +13,7 @@
 
 import { z } from "zod";
 import { answerSchema } from "#lib/decide/types";
+import { varDependencies } from "#lib/runtime/dependencies";
 import {
     componentCatalog,
     iconNames,
@@ -1045,35 +1046,6 @@ const checkArg = (
     if (!argMatches(value, expected)) {
         issue(context, pointer, `Expected ${expected}`);
     }
-};
-
-const varDependencies = (definition: VarDef): string[] => {
-    const dependencies: string[] = [];
-
-    const collect = (binding: Binding): void => {
-        if ("var" in binding) {
-            const [root, id] = binding.var.split(".");
-            if (id && root === "vars") dependencies.push(id);
-            if (!id && root) dependencies.push(root);
-        }
-        if ("template" in binding) {
-            for (const match of binding.template.matchAll(/\{\{([^{}]*)\}\}/g)) {
-                const [root, id] = match[1]!.trim().split(".");
-                if (root === "vars" && id) dependencies.push(id);
-            }
-        }
-    };
-
-    if (definition.from) collect(definition.from);
-    definition.transform?.forEach((transform) => {
-        if (transform.op === "concat") transform.values?.forEach(collect);
-    });
-    for (const value of Object.values(definition.args ?? {})) {
-        const parsed = bindingSchema.safeParse(value);
-        if (parsed.success) collect(parsed.data);
-    }
-
-    return [...new Set(dependencies)];
 };
 
 const checkVarCycles = (context: CheckContext, vars: Record<string, VarDef>): void => {
