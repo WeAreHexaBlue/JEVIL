@@ -30,3 +30,8 @@ project.inlang/cache/
 
 # Generated Worker types (created by `bun run gen` / `prepare`)
 worker-configuration.d.ts
+
+# Python example tooling
+.venv/
+__pycache__/
+*.pyc

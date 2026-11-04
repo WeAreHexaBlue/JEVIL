@@ -412,7 +412,7 @@ CORS: Access-Control-Allow-Origin: <JEVIL origin> (or *)
       Access-Control-Allow-Methods: GET, POST, OPTIONS
 ```
 
-A reference Laya bridge (`examples/laya-local-bridge/`) will be added in phase 2. It wraps `laya.Router` in a tiny HTTP server with the contract above.
+A reference Flask bridge lives in `examples/laya-local-bridge/`. It implements the contract above, answers CORS for the configured JEVIL origin, and either forwards to Laya or answers deterministically so the UI can be exercised without a key.
 
 ### 10.5 Connection modes
 
