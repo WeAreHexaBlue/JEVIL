@@ -224,7 +224,7 @@ A **binding** is a safe reference. It is never evaluated as JavaScript.
 ```ts
 type Binding =
   | { lit: string | number | boolean | null | unknown[] | Record<string, unknown> }
-  | { var: string }                                   // inputs.*, vars.*, meta.*
+  | { var: string }   // a declared var id, or inputs.<id>, vars.<id>, meta.<field>
   | { step: string; question: string; pick?: Pick }   // answers
   | { template: string };                             // {{path}} interpolation
 ```
@@ -245,13 +245,15 @@ Templates interpolate dot paths inside `{{ }}`:
 
 - Allowed paths: `inputs.<id>`, `vars.<id>`, `steps.<stepId>.<questionId>[.<field>]`, `meta.<field>`.
 - No function calls, arithmetic, conditionals, or indexing inside `{{ }}`.
-- Escape a literal brace with `\{{`.
+- Escape a literal opening with `\{{`. The rest of the text, including any `}}`, renders literally.
 - Missing values render as an empty string; validation flags unknown paths before publish.
 - Templates always produce a string.
 
 ### 7.2 Transforms (for `vars`)
 
 A derived variable is either a **source + transform chain** or a **builtin call**:
+
+`vars` keys are lowerCamelCase: `[a-z][a-zA-Z0-9_]{0,31}`.
 
 ```ts
 interface VarDef {

@@ -1,0 +1,240 @@
+{
+    "schema": "jevil/app@1",
+    "meta": {
+        "title": "Palette Oracle",
+        "tagline": "A word goes in. A palette comes out.",
+        "description": "Type a word and let a decision model read its temperature, energy, and depth. The result is a five-color palette, a generative field, and the probabilities behind the reading.",
+        "tags": ["color", "generative", "wordplay"],
+        "accent": "violet",
+        "icon": "🎨",
+        "engine": { "media": ["text"], "recommended": ["jev", "laya", "clef"] },
+        "autorun": false
+    },
+    "preview": {
+        "inputs": { "word": "petrichor" },
+        "answers": {
+            "read": {
+                "family": {
+                    "type": "choice",
+                    "choice": "earthy",
+                    "confidence": 0.71,
+                    "probabilities": {
+                        "calm": 0.08,
+                        "electric": 0.02,
+                        "earthy": 0.71,
+                        "nostalgic": 0.1,
+                        "luxe": 0.04,
+                        "playful": 0.05
+                    }
+                },
+                "warmth": {
+                    "type": "score",
+                    "score": 0.665,
+                    "confidence": 0.58,
+                    "probabilities": { "0": 0.02, "1": 0.08, "2": 0.22, "3": 0.58, "4": 0.1 }
+                },
+                "energy": {
+                    "type": "score",
+                    "score": 0.353,
+                    "confidence": 0.51,
+                    "probabilities": { "0": 0.12, "1": 0.5, "2": 0.26, "3": 0.09, "4": 0.03 }
+                },
+                "depth": {
+                    "type": "score",
+                    "score": 0.575,
+                    "confidence": 0.49,
+                    "probabilities": { "0": 0.04, "1": 0.14, "2": 0.36, "3": 0.4, "4": 0.06 }
+                }
+            }
+        }
+    },
+    "inputs": [
+        {
+            "id": "word",
+            "type": "text",
+            "label": "Give me a word",
+            "placeholder": "petrichor",
+            "default": "petrichor",
+            "maxLength": 64,
+            "required": true
+        }
+    ],
+    "steps": [
+        {
+            "id": "read",
+            "kind": "decide",
+            "label": "Read the word",
+            "state": { "template": "The user's word is: {{inputs.word}}" },
+            "questions": {
+                "family": {
+                    "type": "choice",
+                    "instructions": "Which color family best captures the feeling of this word?",
+                    "criteria": {
+                        "calm": "still, soft, quiet, water",
+                        "electric": "sharp, loud, digital, neon",
+                        "earthy": "soil, clay, moss, wood",
+                        "nostalgic": "faded, warm, remembered, paper",
+                        "luxe": "rich, dark, polished, velvet",
+                        "playful": "bright, candy, silly, pop"
+                    }
+                },
+                "warmth": {
+                    "type": "score",
+                    "instructions": "How warm or cool does this word feel?",
+                    "criteria": ["icy", "cool", "neutral", "warm", "hot"]
+                },
+                "energy": {
+                    "type": "score",
+                    "instructions": "How energetic is this word?",
+                    "criteria": ["still", "gentle", "moving", "lively", "kinetic"]
+                },
+                "depth": {
+                    "type": "score",
+                    "instructions": "How light or deep should the palette be?",
+                    "criteria": ["pale", "light", "mid", "deep", "midnight"]
+                }
+            }
+        }
+    ],
+    "vars": {
+        "hue": {
+            "type": "number",
+            "from": { "step": "read", "question": "warmth" },
+            "transform": [{ "op": "lerp", "in": [0, 1], "out": [205, 18] }]
+        },
+        "saturation": {
+            "type": "number",
+            "from": { "step": "read", "question": "energy" },
+            "transform": [{ "op": "lerp", "in": [0, 1], "out": [18, 82] }]
+        },
+        "lightness": {
+            "type": "number",
+            "from": { "step": "read", "question": "depth" },
+            "transform": [{ "op": "lerp", "in": [0, 1], "out": [78, 28] }]
+        },
+        "harmony": {
+            "type": "string",
+            "from": { "step": "read", "question": "family" },
+            "transform": [
+                {
+                    "op": "lookup",
+                    "map": {
+                        "calm": "analogous",
+                        "electric": "triadic",
+                        "earthy": "split",
+                        "nostalgic": "monochrome",
+                        "luxe": "complementary",
+                        "playful": "tetradic"
+                    },
+                    "default": "analogous"
+                }
+            ]
+        },
+        "colors": {
+            "type": "color[]",
+            "fn": "palette",
+            "args": {
+                "hue": { "var": "hue" },
+                "saturation": { "var": "saturation" },
+                "lightness": { "var": "lightness" },
+                "harmony": { "var": "harmony" },
+                "count": 5
+            }
+        },
+        "confidencePct": {
+            "type": "string",
+            "from": { "step": "read", "question": "family", "pick": "confidence" },
+            "transform": [{ "op": "percent", "decimals": 0 }]
+        }
+    },
+    "ui": {
+        "type": "Stack",
+        "id": "root",
+        "props": { "direction": "column", "gap": 6 },
+        "children": [
+            {
+                "type": "Heading",
+                "id": "title",
+                "props": { "level": 2, "text": { "template": "“{{inputs.word}}”" } }
+            },
+            {
+                "type": "Text",
+                "id": "subtitle",
+                "props": {
+                    "text": {
+                        "template": "reads as {{steps.read.family.choice}} — {{vars.confidencePct}} sure."
+                    },
+                    "tone": "muted"
+                }
+            },
+            {
+                "type": "Canvas",
+                "id": "field",
+                "props": {
+                    "height": 300,
+                    "paint": "palette-field",
+                    "colors": { "var": "colors" },
+                    "energy": { "step": "read", "question": "energy" },
+                    "seed": { "template": "{{inputs.word}}" }
+                }
+            },
+            {
+                "type": "Palette",
+                "id": "swatches",
+                "props": { "colors": { "var": "colors" }, "labels": true }
+            },
+            {
+                "type": "Stack",
+                "id": "dials",
+                "props": { "direction": "row", "gap": 2 },
+                "children": [
+                    {
+                        "type": "ScoreDial",
+                        "id": "dial-warmth",
+                        "props": {
+                            "label": "warmth",
+                            "value": { "step": "read", "question": "warmth" }
+                        }
+                    },
+                    {
+                        "type": "ScoreDial",
+                        "id": "dial-energy",
+                        "props": {
+                            "label": "energy",
+                            "value": { "step": "read", "question": "energy" }
+                        }
+                    },
+                    {
+                        "type": "ScoreDial",
+                        "id": "dial-depth",
+                        "props": {
+                            "label": "depth",
+                            "value": { "step": "read", "question": "depth" }
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "ProbabilityBars",
+                "id": "probabilities",
+                "props": {
+                    "label": "other readings",
+                    "probabilities": {
+                        "step": "read",
+                        "question": "family",
+                        "pick": "probabilities"
+                    }
+                }
+            },
+            {
+                "type": "Button",
+                "id": "again",
+                "props": {
+                    "label": "Read it again",
+                    "variant": "secondary",
+                    "action": { "kind": "run" }
+                }
+            }
+        ]
+    }
+}

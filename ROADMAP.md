@@ -136,10 +136,10 @@ Connect Jev with a real key → test → connect a local Laya bridge → run the
 
 ### Tasks
 
-- [ ] Implement `jevil/app@1` Zod schema exactly as specified in [APP-FORMAT.md](./docs/APP-FORMAT.md):
-  - [ ] `meta`, `inputs`, `steps`, `vars`, `ui`, `actions`.
-  - [ ] Semantic validation: unique IDs, valid bindings, question references, criteria sizes, state length, node count.
-  - [ ] Human-readable validation errors with JSON pointers.
+- [x] Implement `jevil/app@1` Zod schema exactly as specified in [APP-FORMAT.md](./docs/APP-FORMAT.md):
+  - [x] `meta`, `inputs`, `steps`, `vars`, `ui`, `actions`.
+  - [x] Semantic validation: unique IDs, valid bindings, question references, criteria sizes, state length, node count.
+  - [x] Human-readable validation errors with JSON pointers.
 - [ ] Build the expression/binding engine:
   - [ ] `{ lit }`, `{ var }`, `{ template }`, `{ step, question }`.
   - [ ] Transforms: `lerp`, `clamp`, `round`, `lookup`, `mapRange`, `default`, `concat`.
