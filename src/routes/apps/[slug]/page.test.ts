@@ -90,11 +90,13 @@ describe("app detail page", () => {
         expect(body).toContain("&lt;script>alert(1)&lt;/script>");
     });
 
-    it("links to every seed's source", () => {
+    it("renders every seed without leaking a template", () => {
         for (const app of listSeedApps()) {
-            expect(renderPage({ slug: app.slug, blueprint: app.blueprint })).toContain(
-                `/apps/${app.slug}/source`
-            );
+            const body = renderPage({ slug: app.slug, blueprint: app.blueprint });
+
+            expect(body, app.slug).toContain(app.blueprint.meta.title);
+            expect(body, app.slug).toContain(`/apps/${app.slug}/source`);
+            expect(body, app.slug).not.toContain("{{");
         }
     });
 });

@@ -1,0 +1,268 @@
+{
+    "schema": "jevil/app@1",
+    "meta": {
+        "title": "Vibe Check",
+        "tagline": "Paste a message. Read the room.",
+        "description": "A decision model reads the energy, warmth, and chaos in a message, then names the vibe. You get the verdict, three dials, and the probabilities behind every level, so you can see how sure the reading is.",
+        "tags": ["mood", "language", "playful", "social"],
+        "accent": "pink",
+        "icon": "🌡️",
+        "engine": { "media": ["text"], "recommended": ["clef", "laya", "jev"] },
+        "autorun": false
+    },
+    "preview": {
+        "inputs": { "message": "I just got promoted and I'm terrified." },
+        "answers": {
+            "read": {
+                "energy": {
+                    "type": "score",
+                    "score": 0.72,
+                    "confidence": 0.63,
+                    "probabilities": { "0": 0.01, "1": 0.06, "2": 0.19, "3": 0.63, "4": 0.11 }
+                },
+                "warmth": {
+                    "type": "score",
+                    "score": 0.58,
+                    "confidence": 0.52,
+                    "probabilities": { "0": 0.03, "1": 0.12, "2": 0.31, "3": 0.42, "4": 0.12 }
+                },
+                "chaos": {
+                    "type": "score",
+                    "score": 0.64,
+                    "confidence": 0.47,
+                    "probabilities": { "0": 0.02, "1": 0.1, "2": 0.26, "3": 0.44, "4": 0.18 }
+                }
+            }
+        }
+    },
+    "inputs": [
+        {
+            "id": "message",
+            "type": "textarea",
+            "label": "The message",
+            "help": "Paste something you sent or received. It is only sent when you run the app.",
+            "placeholder": "I just got promoted and I'm terrified.",
+            "default": "I just got promoted and I'm terrified.",
+            "maxLength": 1200,
+            "required": true
+        }
+    ],
+    "steps": [
+        {
+            "id": "read",
+            "kind": "decide",
+            "label": "Read the room",
+            "state": { "template": "The message is: {{inputs.message}}" },
+            "questions": {
+                "energy": {
+                    "type": "score",
+                    "instructions": "How much energy is in this message?",
+                    "criteria": ["drained", "low", "steady", "charged", "electric"]
+                },
+                "warmth": {
+                    "type": "score",
+                    "instructions": "How warm is the feeling behind it?",
+                    "criteria": ["cold", "cool", "even", "warm", "glowing"]
+                },
+                "chaos": {
+                    "type": "score",
+                    "instructions": "How orderly or chaotic does it feel?",
+                    "criteria": ["orderly", "tidy", "loose", "messy", "feral"]
+                }
+            }
+        }
+    ],
+    "vars": {
+        "energyPct": {
+            "type": "string",
+            "from": { "step": "read", "question": "energy" },
+            "transform": [{ "op": "percent", "decimals": 0 }]
+        },
+        "warmthPct": {
+            "type": "string",
+            "from": { "step": "read", "question": "warmth" },
+            "transform": [{ "op": "percent", "decimals": 0 }]
+        },
+        "chaosPct": {
+            "type": "string",
+            "from": { "step": "read", "question": "chaos" },
+            "transform": [{ "op": "percent", "decimals": 0 }]
+        },
+        "verdict": {
+            "type": "string",
+            "from": { "step": "read", "question": "energy" },
+            "transform": [
+                { "op": "lerp", "in": [0, 1], "out": [0, 3] },
+                { "op": "round", "to": 0 },
+                {
+                    "op": "lookup",
+                    "map": { "0": "flat", "1": "soft", "2": "bright", "3": "electric" },
+                    "default": "steady"
+                }
+            ]
+        },
+        "note": {
+            "type": "string",
+            "from": { "step": "read", "question": "energy" },
+            "transform": [
+                { "op": "lerp", "in": [0, 1], "out": [0, 3] },
+                { "op": "round", "to": 0 },
+                {
+                    "op": "lookup",
+                    "map": {
+                        "0": "Low fuel. This reads tired, not finished.",
+                        "1": "A quiet signal. There is feeling here, kept close.",
+                        "2": "Bright and awake. Something is moving.",
+                        "3": "Fully charged. This one wants to be heard."
+                    },
+                    "default": "A steady signal, neither quiet nor loud."
+                }
+            ]
+        },
+        "tone": {
+            "type": "string",
+            "from": { "step": "read", "question": "energy" },
+            "transform": [
+                { "op": "lerp", "in": [0, 1], "out": [0, 3] },
+                { "op": "round", "to": 0 },
+                {
+                    "op": "lookup",
+                    "map": { "0": "neutral", "1": "neutral", "2": "lime", "3": "pink" },
+                    "default": "neutral"
+                }
+            ]
+        },
+        "confidencePct": {
+            "type": "string",
+            "from": { "step": "read", "question": "energy", "pick": "confidence" },
+            "transform": [{ "op": "percent", "decimals": 0 }]
+        }
+    },
+    "ui": {
+        "type": "Stack",
+        "id": "root",
+        "props": { "direction": "column", "gap": 6 },
+        "children": [
+            {
+                "type": "Heading",
+                "id": "title",
+                "props": { "level": 2, "text": "Vibe Check" }
+            },
+            {
+                "type": "Text",
+                "id": "subtitle",
+                "props": {
+                    "text": "Paste a message. The model reads its temperature.",
+                    "tone": "muted"
+                }
+            },
+            {
+                "type": "TextArea",
+                "id": "message_field",
+                "props": { "input": "message", "rows": 5 }
+            },
+            {
+                "type": "Card",
+                "id": "result",
+                "props": { "tone": "tint", "radius": "lg", "padding": 5 },
+                "children": [
+                    {
+                        "type": "Stack",
+                        "id": "result_stack",
+                        "props": { "gap": 4 },
+                        "children": [
+                            {
+                                "type": "Badge",
+                                "id": "verdict",
+                                "props": { "text": { "var": "verdict" }, "tone": { "var": "tone" } }
+                            },
+                            {
+                                "type": "Text",
+                                "id": "note",
+                                "props": { "text": { "var": "note" }, "size": "lg" }
+                            },
+                            {
+                                "type": "Stack",
+                                "id": "dials",
+                                "props": { "direction": "row", "gap": 2, "wrap": true },
+                                "children": [
+                                    {
+                                        "type": "ScoreDial",
+                                        "id": "dial-energy",
+                                        "props": {
+                                            "label": "energy",
+                                            "value": { "step": "read", "question": "energy" },
+                                            "levels": ["drained", "electric"]
+                                        }
+                                    },
+                                    {
+                                        "type": "ScoreDial",
+                                        "id": "dial-warmth",
+                                        "props": {
+                                            "label": "warmth",
+                                            "value": { "step": "read", "question": "warmth" },
+                                            "levels": ["cold", "glowing"]
+                                        }
+                                    },
+                                    {
+                                        "type": "ScoreDial",
+                                        "id": "dial-chaos",
+                                        "props": {
+                                            "label": "chaos",
+                                            "value": { "step": "read", "question": "chaos" },
+                                            "levels": ["orderly", "feral"]
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "Text",
+                "id": "confidence",
+                "props": {
+                    "text": {
+                        "template": "Energy {{vars.energyPct}}, warmth {{vars.warmthPct}}, chaos {{vars.chaosPct}}. The model is {{vars.confidencePct}} sure of the energy reading."
+                    },
+                    "tone": "muted",
+                    "size": "sm"
+                }
+            },
+            {
+                "type": "ProbabilityBars",
+                "id": "energy-bars",
+                "props": {
+                    "label": "energy, level by level",
+                    "probabilities": {
+                        "step": "read",
+                        "question": "energy",
+                        "pick": "probabilities"
+                    }
+                }
+            },
+            {
+                "type": "ProbabilityBars",
+                "id": "chaos-bars",
+                "props": {
+                    "label": "chaos, level by level",
+                    "probabilities": {
+                        "step": "read",
+                        "question": "chaos",
+                        "pick": "probabilities"
+                    }
+                }
+            },
+            {
+                "type": "Button",
+                "id": "again",
+                "props": {
+                    "label": "Read it again",
+                    "variant": "secondary",
+                    "action": { "kind": "run" }
+                }
+            }
+        ]
+    }
+}

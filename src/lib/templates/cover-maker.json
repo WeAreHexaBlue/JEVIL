@@ -1,0 +1,301 @@
+{
+    "schema": "jevil/app@1",
+    "meta": {
+        "title": "Cover Maker",
+        "tagline": "A title in. A record cover out.",
+        "description": "Give the model a title, pick a genre, and set two dials. It chooses a harmony, builds a four-color palette, and paints a striped cover around your type. Every choice can be traced back to its probabilities.",
+        "tags": ["design", "music", "generative", "type"],
+        "accent": "sky",
+        "icon": "💿",
+        "engine": { "media": ["text"], "recommended": ["laya", "clef", "jev"] },
+        "autorun": false
+    },
+    "preview": {
+        "inputs": { "title": "Midnight Radio" },
+        "answers": {
+            "read": {
+                "genre": {
+                    "type": "choice",
+                    "choice": "dream",
+                    "confidence": 0.66,
+                    "probabilities": {
+                        "pop": 0.06,
+                        "noise": 0.09,
+                        "ambient": 0.14,
+                        "jazz": 0.05,
+                        "metal": 0.06,
+                        "dream": 0.66
+                    }
+                },
+                "boldness": {
+                    "type": "score",
+                    "score": 0.42,
+                    "confidence": 0.55,
+                    "probabilities": { "0": 0.08, "1": 0.22, "2": 0.42, "3": 0.2, "4": 0.08 }
+                },
+                "mood": {
+                    "type": "score",
+                    "score": 0.31,
+                    "confidence": 0.5,
+                    "probabilities": { "0": 0.16, "1": 0.34, "2": 0.28, "3": 0.16, "4": 0.06 }
+                }
+            }
+        }
+    },
+    "inputs": [
+        {
+            "id": "title",
+            "type": "text",
+            "label": "Cover title",
+            "help": "Short is better. One to four words.",
+            "placeholder": "Midnight Radio",
+            "default": "Midnight Radio",
+            "maxLength": 60,
+            "required": true
+        }
+    ],
+    "steps": [
+        {
+            "id": "read",
+            "kind": "decide",
+            "label": "Set the cover",
+            "state": { "template": "Design a record cover for the title: {{inputs.title}}" },
+            "questions": {
+                "genre": {
+                    "type": "choice",
+                    "instructions": "Which genre should the cover belong to?",
+                    "criteria": {
+                        "pop": "bright hooks, clean edges, radio-ready",
+                        "noise": "collage, feedback, broken signal",
+                        "ambient": "slow air, soft edges, long shadows",
+                        "jazz": "smoke, brass, late-night swing",
+                        "metal": "weight, teeth, black light",
+                        "dream": "haze, pastel fog, half-remembered"
+                    }
+                },
+                "boldness": {
+                    "type": "score",
+                    "instructions": "How loud should the type and color be?",
+                    "criteria": ["whisper", "quiet", "steady", "loud", "shout"]
+                },
+                "mood": {
+                    "type": "score",
+                    "instructions": "How warm should the palette feel?",
+                    "criteria": ["cold", "cool", "neutral", "warm", "hot"]
+                }
+            }
+        }
+    ],
+    "vars": {
+        "hue": {
+            "type": "number",
+            "from": { "step": "read", "question": "mood" },
+            "transform": [{ "op": "lerp", "in": [0, 1], "out": [210, 12] }]
+        },
+        "saturation": {
+            "type": "number",
+            "from": { "step": "read", "question": "boldness" },
+            "transform": [{ "op": "lerp", "in": [0, 1], "out": [24, 92] }]
+        },
+        "harmony": {
+            "type": "string",
+            "from": { "step": "read", "question": "genre" },
+            "transform": [
+                {
+                    "op": "lookup",
+                    "map": {
+                        "pop": "tetradic",
+                        "noise": "triadic",
+                        "ambient": "analogous",
+                        "jazz": "split",
+                        "metal": "complementary",
+                        "dream": "monochrome"
+                    },
+                    "default": "analogous"
+                }
+            ]
+        },
+        "colors": {
+            "type": "color[]",
+            "fn": "palette",
+            "args": {
+                "hue": { "var": "hue" },
+                "saturation": { "var": "saturation" },
+                "lightness": 45,
+                "harmony": { "var": "harmony" },
+                "count": 4,
+                "seed": { "template": "{{inputs.title}}" }
+            }
+        },
+        "genreLabel": {
+            "type": "string",
+            "from": { "step": "read", "question": "genre" },
+            "transform": [
+                {
+                    "op": "lookup",
+                    "map": {
+                        "pop": "Pop",
+                        "noise": "Noise",
+                        "ambient": "Ambient",
+                        "jazz": "Jazz",
+                        "metal": "Metal",
+                        "dream": "Dream pop"
+                    },
+                    "default": "Unknown genre"
+                }
+            ]
+        },
+        "boldPct": {
+            "type": "string",
+            "from": { "step": "read", "question": "boldness" },
+            "transform": [{ "op": "percent", "decimals": 0 }]
+        },
+        "moodPct": {
+            "type": "string",
+            "from": { "step": "read", "question": "mood" },
+            "transform": [{ "op": "percent", "decimals": 0 }]
+        }
+    },
+    "ui": {
+        "type": "Stack",
+        "id": "root",
+        "props": { "direction": "column", "gap": 6 },
+        "children": [
+            {
+                "type": "Heading",
+                "id": "title",
+                "props": { "level": 2, "text": "Cover Maker" }
+            },
+            {
+                "type": "Text",
+                "id": "subtitle",
+                "props": {
+                    "text": "A title, a genre, two dials. The model paints the rest.",
+                    "tone": "muted"
+                }
+            },
+            {
+                "type": "TextInput",
+                "id": "title_field",
+                "props": { "input": "title" }
+            },
+            {
+                "type": "Card",
+                "id": "cover",
+                "props": { "tone": "paper", "radius": "lg", "padding": 5 },
+                "children": [
+                    {
+                        "type": "Stack",
+                        "id": "cover_stack",
+                        "props": { "gap": 4 },
+                        "children": [
+                            {
+                                "type": "Canvas",
+                                "id": "cover_art",
+                                "props": {
+                                    "height": 180,
+                                    "paint": "stripes",
+                                    "colors": { "var": "colors" },
+                                    "energy": { "step": "read", "question": "boldness" },
+                                    "seed": { "template": "{{inputs.title}}" },
+                                    "background": "#171022"
+                                }
+                            },
+                            {
+                                "type": "Heading",
+                                "id": "cover_title",
+                                "props": {
+                                    "level": 2,
+                                    "text": { "template": "“{{inputs.title}}”" }
+                                }
+                            },
+                            {
+                                "type": "Badge",
+                                "id": "genre",
+                                "props": { "text": { "var": "genreLabel" }, "tone": "violet" }
+                            },
+                            {
+                                "type": "Text",
+                                "id": "cover_note",
+                                "props": {
+                                    "text": {
+                                        "template": "{{vars.genreLabel}} · {{vars.boldPct}} bold · {{vars.moodPct}} warm"
+                                    },
+                                    "tone": "muted",
+                                    "size": "sm"
+                                }
+                            },
+                            {
+                                "type": "Palette",
+                                "id": "cover_colors",
+                                "props": {
+                                    "colors": { "var": "colors" },
+                                    "labels": true,
+                                    "size": "md"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "Stack",
+                "id": "dials",
+                "props": { "direction": "row", "gap": 2 },
+                "children": [
+                    {
+                        "type": "ScoreDial",
+                        "id": "dial-boldness",
+                        "props": {
+                            "label": "boldness",
+                            "value": { "step": "read", "question": "boldness" },
+                            "levels": ["whisper", "shout"]
+                        }
+                    },
+                    {
+                        "type": "ScoreDial",
+                        "id": "dial-mood",
+                        "props": {
+                            "label": "warmth",
+                            "value": { "step": "read", "question": "mood" },
+                            "levels": ["cold", "hot"]
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "ProbabilityBars",
+                "id": "genre-bars",
+                "props": {
+                    "label": "genre, option by option",
+                    "probabilities": {
+                        "step": "read",
+                        "question": "genre",
+                        "pick": "probabilities"
+                    }
+                }
+            },
+            {
+                "type": "ProbabilityBars",
+                "id": "boldness-bars",
+                "props": {
+                    "label": "boldness, level by level",
+                    "probabilities": {
+                        "step": "read",
+                        "question": "boldness",
+                        "pick": "probabilities"
+                    }
+                }
+            },
+            {
+                "type": "Button",
+                "id": "again",
+                "props": {
+                    "label": "Make another cover",
+                    "variant": "secondary",
+                    "action": { "kind": "run" }
+                }
+            }
+        ]
+    }
+}

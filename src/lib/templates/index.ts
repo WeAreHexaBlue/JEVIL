@@ -7,7 +7,9 @@
  * half-empty page. The raw JSON is kept for the read-only source viewer.
  */
 
+import coverMaker from "./cover-maker.json";
 import paletteOracle from "./palette-oracle.json";
+import vibeCheck from "./vibe-check.json";
 import { formatIssues, validateBlueprint, type Blueprint } from "#lib/schema/blueprint";
 
 export interface SeedApp {
@@ -23,7 +25,11 @@ interface SeedDefinition {
     json: unknown;
 }
 
-const definitions: SeedDefinition[] = [{ slug: "palette-oracle", json: paletteOracle }];
+const definitions: SeedDefinition[] = [
+    { slug: "palette-oracle", json: paletteOracle },
+    { slug: "vibe-check", json: vibeCheck },
+    { slug: "cover-maker", json: coverMaker }
+];
 
 const cache = new Map<string, SeedApp>();
 

@@ -168,10 +168,10 @@ Connect Jev with a real key → test → connect a local Laya bridge → run the
   - [x] Server-rendered metadata and preview.
   - [x] Client runner with connection picker, inputs, run, result, "How this was decided".
   - [x] Pending/error/empty states.
-- [ ] Author three seed blueprints in `src/lib/templates/`:
+- [x] Author three seed blueprints in `src/lib/templates/`:
   - [x] **Palette Oracle** — text → choice + 3 scores → 5-color palette + canvas + dials.
-  - [ ] **Vibe Check** — textarea → 3 scores → verdict badge + dials + probability bars.
-  - [ ] **Cover Maker** — title → genre choice + 2 scores → typographic cover on canvas.
+  - [x] **Vibe Check** — textarea → 3 scores → verdict badge + dials + probability bars.
+  - [x] **Cover Maker** — title → genre choice + 2 scores → typographic cover on canvas.
 - [x] Add a read-only JSON viewer for seed apps (`/apps/[slug]/source`) to make the format legible.
 - [ ] Runtime tests: schema fixtures, binding resolver, transform math, palette generation, step error handling, determinism.
 
