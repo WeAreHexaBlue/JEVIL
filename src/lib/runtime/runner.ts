@@ -291,6 +291,7 @@ export class BlueprintRunner {
     private readonly blueprint: Blueprint;
     private readonly timeoutMs: number;
     private readonly now: () => number;
+    private readonly previewEnabled: boolean;
     private transport?: DecideTransport;
     private listeners = new Set<Listener>();
     private controller?: AbortController;
@@ -307,6 +308,7 @@ export class BlueprintRunner {
         this.explicitSeed = options.seed;
 
         const preview = options.preview ?? Boolean(this.blueprint.preview);
+        this.previewEnabled = preview;
         const inputs = initialInputs(
             this.blueprint,
             preview
@@ -379,14 +381,20 @@ export class BlueprintRunner {
         this.setInputs({ [id]: value });
     }
 
-    /** Back to defaults with no answers. Preview samples are not results. */
+    /** Defaults and the preview state when one exists, with no user answers. */
     reset(): void {
         this.generation += 1;
         this.abort();
-        this.inputs = initialInputs(this.blueprint);
-        this.answers = {};
+
+        const preview = this.previewEnabled;
+        this.inputs = initialInputs(
+            this.blueprint,
+            preview ? this.blueprint.preview?.inputs : undefined
+        );
+        this.answers = preview ? cloneAnswers(this.blueprint.preview?.answers ?? {}) : {};
+
         this.publish({
-            status: "idle",
+            status: preview ? "preview" : "idle",
             stale: false,
             error: undefined,
             durationMs: undefined,
@@ -394,7 +402,10 @@ export class BlueprintRunner {
             steps: this.blueprint.steps.map((step) => ({
                 id: step.id,
                 ...(step.label ? { label: step.label } : {}),
-                status: "pending" as const
+                status:
+                    preview && this.blueprint.preview?.answers?.[step.id]
+                        ? ("done" as const)
+                        : ("pending" as const)
             }))
         });
     }
