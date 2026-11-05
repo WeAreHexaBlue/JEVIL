@@ -201,22 +201,22 @@ Open Palette Oracle → run with "petrichor" → show palette, canvas, dials, pr
 
 ### Tasks
 
-- [ ] Editor route `/edit/[id]` with three panes + test bench (see SPEC §12).
-- [ ] Draft persistence:
-  - [ ] `POST /api/apps` create draft.
-  - [ ] `PATCH /api/apps/:id` with `draft_revision` optimistic concurrency.
-  - [ ] Autosave debounce 800 ms; "saved" / "conflict" states.
+- [x] Editor route `/edit/[id]` with three panes + test bench (see SPEC §12).
+- [x] Draft persistence:
+  - [x] `POST /api/apps` create draft.
+  - [x] `PATCH /api/apps/:id` with `draft_revision` optimistic concurrency.
+  - [x] Autosave debounce 800 ms; "saved" / "conflict" states.
 - [ ] Component palette:
   - [ ] Grouped, searchable, drag source.
   - [ ] Drag into containers with drop indicators.
-  - [ ] Click-to-add fallback and keyboard move (`Alt+↑/↓`).
+  - [x] Click-to-add fallback and keyboard move (`Alt+↑/↓`).
 - [ ] Canvas:
   - [ ] Dotted grid, responsive width presets (mobile/tablet/desktop), zoom.
-  - [ ] Selection outline, hover outline, breadcrumb for nested nodes.
+  - [x] Selection outline, hover outline, breadcrumb for nested nodes.
   - [ ] Delete/duplicate/wrap actions.
 - [ ] Inspector:
-  - [ ] Typed prop controls per component.
-  - [ ] Literal vs bound toggle; binding picker grouped by inputs / vars / step answers.
+  - [x] Typed prop controls per component.
+  - [x] Literal vs bound toggle; binding picker grouped by inputs / vars / step answers.
   - [ ] Inline validation (type mismatch, missing reference).
 - [ ] Variables panel:
   - [ ] Inputs CRUD (id, label, type, default, required, max).
@@ -228,13 +228,14 @@ Open Palette Oracle → run with "petrichor" → show palette, canvas, dials, pr
   - [ ] State template editor with variable autocomplete.
 - [ ] Test bench:
   - [ ] Inputs, run, normalized answers, raw JSON toggle, latency, tokens.
-  - [ ] Per-step status and error.
-  - [ ] "Use these answers as sample" for preview without a model call.
-- [ ] Validation panel:
-  - [ ] Schema errors, unresolved bindings, empty criteria, duplicate IDs, contrast warnings, size limits.
-  - [ ] Click an error to focus the offending node.
-- [ ] Undo/redo (100 entries), `Cmd/Ctrl+K` command palette, `Cmd/Ctrl+S` save.
-- [ ] "Edit JSON" advanced mode with schema validation and format.
+  - [x] Per-step status and error.
+  - [x] "Use these answers as sample" for preview without a model call.
+- [x] Validation panel:
+  - [x] Schema errors, unresolved bindings, empty criteria, duplicate IDs, contrast warnings, size limits.
+  - [x] Click an error to focus the offending node.
+- [x] Undo/redo (100 entries) and `Cmd/Ctrl+S` save.
+- [ ] `Cmd/Ctrl+K` command palette.
+- [x] "Edit JSON" advanced mode with schema validation and format.
 - [ ] Templates gallery: blank, Palette Oracle, Vibe Check, Cover Maker, Triage.
 - [ ] Publish flow:
   - [ ] Metadata form (title, tagline, description, tags, accent, icon, remixable).

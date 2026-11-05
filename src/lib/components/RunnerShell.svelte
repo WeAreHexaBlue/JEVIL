@@ -5,11 +5,9 @@
     import Button from "#lib/components/Button.svelte";
     import { inputClass, labelClass } from "#lib/components/field-styles";
     import type { Answer } from "#lib/decide/types";
-    import { decideViaAccount } from "#lib/connections/account";
     import { listGuestConnections } from "#lib/connections/guest-store";
     import { providerName } from "#lib/connections/labels";
-    import { decideLocal } from "#lib/connections/local";
-    import { decideViaProxy } from "#lib/connections/proxy";
+    import { accountTransport, guestTransport } from "#lib/connections/transport";
     import RuntimeApp from "#lib/runtime/components/RuntimeApp.svelte";
     import RuntimeField from "#lib/runtime/components/RuntimeField.svelte";
     import type { InputValue } from "#lib/runtime/bindings";
@@ -96,36 +94,12 @@
         }
 
         if (chosen.group === "account") {
-            const connectionId = chosen.key.slice("account:".length);
-            runner.setTransport((request, { signal }) =>
-                decideViaAccount(connectionId, request, { signal })
-            );
+            runner.setTransport(accountTransport(chosen.key.slice("account:".length)));
             return;
         }
 
         const guest = guests.find((connection) => `guest:${connection.id}` === chosen.key);
-        if (!guest) {
-            runner.setTransport(undefined);
-            return;
-        }
-
-        if (guest.mode === "local") {
-            runner.setTransport((request, { signal }) =>
-                decideLocal(
-                    {
-                        baseUrl: guest.baseUrl,
-                        model: guest.model,
-                        secret: guest.secret,
-                        headerName: guest.headerName
-                    },
-                    request,
-                    { signal }
-                )
-            );
-            return;
-        }
-
-        runner.setTransport((request, { signal }) => decideViaProxy(guest, request, { signal }));
+        runner.setTransport(guest ? guestTransport(guest) : undefined);
     });
 
     let autoran = false;

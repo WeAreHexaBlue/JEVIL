@@ -18,6 +18,22 @@
         )
     );
 
+    const updated = (ms: number): string =>
+        new Intl.DateTimeFormat(getLocale(), {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        }).format(new Date(ms));
+
+    const accentTile: Record<string, string> = {
+        blue: "bg-brand-soft text-brand",
+        pink: "bg-pink/15 text-pink",
+        lime: "bg-lime/25 text-green",
+        tangerine: "bg-gold/30 text-gold",
+        violet: "bg-brand-soft text-brand",
+        sky: "bg-brand-soft text-brand"
+    };
+
     const tabs = $derived([
         {
             id: "published",
@@ -131,9 +147,38 @@
         {/each}
     </nav>
 
-    <div class="mt-8 rounded-lg border border-dashed border-line bg-paper-2/40 p-8 md:p-12">
-        <EmptyState title={empty.title} body={empty.body}>
-            <Button href={empty.href} variant="secondary">{empty.cta}</Button>
-        </EmptyState>
-    </div>
+    {#if data.tab === "drafts" && data.drafts.length > 0}
+        <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {#each data.drafts as draft (draft.id)}
+                <li>
+                    <a
+                        class="group flex h-full flex-col gap-3 rounded-md border border-line bg-paper p-5 transition-[transform,box-shadow,border-color] duration-150 ease-spring hover:-translate-y-0.5 hover:border-ink-2/30 hover:shadow-soft focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                        href={resolve("/edit/[id]", { id: draft.id })}
+                    >
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="inline-flex size-10 shrink-0 items-center justify-center rounded-sm text-[20px] leading-none {accentTile[
+                                    draft.accent
+                                ] ?? accentTile.violet}"
+                                aria-hidden="true">{draft.icon}</span
+                            >
+                            <h2 class="text-h3 text-ink">{draft.title}</h2>
+                        </div>
+                        <p class="text-small text-ink-2">
+                            {draft.tagline || m.me_drafts_untitled_tagline()}
+                        </p>
+                        <p class="mt-auto font-mono text-micro text-muted">
+                            {m.me_draft_updated({ date: updated(draft.updatedAt) })}
+                        </p>
+                    </a>
+                </li>
+            {/each}
+        </ul>
+    {:else}
+        <div class="mt-8 rounded-lg border border-dashed border-line bg-paper-2/40 p-8 md:p-12">
+            <EmptyState title={empty.title} body={empty.body}>
+                <Button href={empty.href} variant="secondary">{empty.cta}</Button>
+            </EmptyState>
+        </div>
+    {/if}
 </section>
