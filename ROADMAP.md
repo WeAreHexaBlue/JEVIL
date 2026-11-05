@@ -151,19 +151,19 @@ Connect Jev with a real key → test → connect a local Laya bridge → run the
   - [x] Lazy derived vars with topological ordering.
   - [x] Run state machine: `idle → running → success | error`; cancel.
   - [x] Deterministic seeded randomness from input hash.
-- [ ] Build the component renderer (`src/lib/runtime/components/`):
-  - [ ] Layout: `Stack`, `Grid`, `Card`, `Spacer`, `Divider`.
-  - [ ] Input: `TextInput`, `TextArea`, `Select`, `Slider`, `Toggle`, `ColorInput`.
-  - [ ] Display: `Heading`, `Text`, `Badge`, `Stat`, `Meter`, `ScoreDial`, `ProbabilityBars`, `Palette`, `Canvas`, `Shape`, `List`.
-  - [ ] Action: `Button`, `IconButton`.
-  - [ ] Feedback: `Skeleton`, `EmptyState`, `ErrorNote`, `ConfidenceChip`.
-  - [ ] All text rendered as text; no `{@html}`; URL props validated.
-- [ ] Implement the `Canvas` paint presets:
-  - [ ] `palette-field` — soft blobs/gradient mesh from colors + energy.
-  - [ ] `stripes` — poster bands.
-  - [ ] `grain` — noise overlay.
-  - [ ] `orb` — single gradient orb.
-  - [ ] Deterministic by seed; reduced-motion static fallback.
+- [x] Build the component renderer (`src/lib/runtime/components/`):
+  - [x] Layout: `Stack`, `Grid`, `Card`, `Spacer`, `Divider`.
+  - [x] Input: `TextInput`, `TextArea`, `Select`, `Slider`, `Toggle`, `ColorInput`.
+  - [x] Display: `Heading`, `Text`, `Badge`, `Stat`, `Meter`, `ScoreDial`, `ProbabilityBars`, `Palette`, `Canvas`, `Shape`, `List`.
+  - [x] Action: `Button`, `IconButton`.
+  - [x] Feedback: `Skeleton`, `EmptyState`, `ErrorNote`, `ConfidenceChip`.
+  - [x] All text rendered as text; no `{@html}`; URL props validated.
+- [x] Implement the `Canvas` paint presets:
+  - [x] `palette-field` — soft blobs/gradient mesh from colors + energy.
+  - [x] `stripes` — poster bands.
+  - [x] `grain` — noise overlay.
+  - [x] `orb` — single gradient orb.
+  - [x] Deterministic by seed; reduced-motion static fallback.
 - [ ] Build the app detail page + runner shell:
   - [ ] Server-rendered metadata and preview.
   - [ ] Client runner with connection picker, inputs, run, result, "How this was decided".

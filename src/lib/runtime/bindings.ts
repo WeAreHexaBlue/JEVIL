@@ -167,6 +167,10 @@ const mulberry32 = (seed: number): (() => number) => {
     };
 };
 
+/** A deterministic 0..1 generator, seeded by the FNV hash of `seed`. */
+export const seededRandom = (seed: string | number): (() => number) =>
+    mulberry32(hashString(String(seed)));
+
 /** Deterministic jitter in [-amount, amount], seeded by `hash(seed + ":" + index)`. */
 const jitter = (seed: string, index: number, amount: number): number => {
     const random = mulberry32(hashString(`${seed}:${index}`));
