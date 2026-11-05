@@ -145,12 +145,12 @@ Connect Jev with a real key → test → connect a local Laya bridge → run the
   - [x] Transforms: `lerp`, `clamp`, `round`, `lookup`, `mapRange`, `default`, `concat`.
   - [x] Builtins: `palette`, `hsl`, `contrastText`, `formatNumber`, `pick` (seeded).
   - [x] Cycle detection + missing-value fallbacks.
-- [ ] Build the runtime:
-  - [ ] Scope initialization (inputs, answers, vars).
-  - [ ] Ordered decide steps with abort/timeout and per-step error states.
-  - [ ] Lazy derived vars with topological ordering.
-  - [ ] Run state machine: `idle → running → success | error`; cancel.
-  - [ ] Deterministic seeded randomness from input hash.
+- [x] Build the runtime:
+  - [x] Scope initialization (inputs, answers, vars).
+  - [x] Ordered decide steps with abort/timeout and per-step error states.
+  - [x] Lazy derived vars with topological ordering.
+  - [x] Run state machine: `idle → running → success | error`; cancel.
+  - [x] Deterministic seeded randomness from input hash.
 - [ ] Build the component renderer (`src/lib/runtime/components/`):
   - [ ] Layout: `Stack`, `Grid`, `Card`, `Spacer`, `Divider`.
   - [ ] Input: `TextInput`, `TextArea`, `Select`, `Slider`, `Toggle`, `ColorInput`.

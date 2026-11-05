@@ -534,15 +534,8 @@ export const evaluateVar = (
     const warnings: string[] = [];
     let value: unknown;
 
-    if (definition.fn) {
-        const args: Record<string, unknown> = {};
-        for (const [key, raw] of Object.entries(definition.args ?? {})) {
-            args[key] = isBinding(raw) ? resolveBinding(raw, scope) : raw;
-        }
-        value = callBuiltin(definition.fn, args, scope);
-    } else if (definition.from) {
-        value = resolveBinding(definition.from, scope);
-        for (const transform of definition.transform ?? []) {
+    const applyChain = (chain: Transform[]): void => {
+        for (const transform of chain) {
             if (
                 numericOps.has(transform.op) &&
                 value !== undefined &&
@@ -551,6 +544,30 @@ export const evaluateVar = (
                 warnings.push(`\`${transform.op}\` needs a number`);
             }
             value = applyTransform(value, transform, scope);
+        }
+    };
+
+    if (definition.fn) {
+        const args: Record<string, unknown> = {};
+        for (const [key, raw] of Object.entries(definition.args ?? {})) {
+            args[key] = isBinding(raw) ? resolveBinding(raw, scope) : raw;
+        }
+        value = callBuiltin(definition.fn, args, scope);
+    } else if (definition.from) {
+        value = resolveBinding(definition.from, scope);
+        const chain = definition.transform ?? [];
+
+        // A missing source uses `fallback` (or a zero), not a half-applied
+        // chain: `concat` would otherwise render its prefix alone.
+        if (value === undefined) {
+            const fill = chain.findIndex((transform) => transform.op === "default");
+            const replacement = chain[fill];
+            if (replacement?.op === "default") {
+                value = replacement.value;
+                applyChain(chain.slice(fill + 1));
+            }
+        } else {
+            applyChain(chain);
         }
     }
 
