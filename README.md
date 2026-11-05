@@ -8,7 +8,7 @@ A word goes in, a palette comes out. A vibe goes in, a score comes out. No chat 
 
 ## Status
 
-Phases 0–1 — foundations and connections. The shell, auth, design tokens, D1 schema, encrypted connections, guest and local endpoints, and the decide bench exist. The app runtime is next. See [ROADMAP.md](./ROADMAP.md).
+Phases 0–2 — foundations, connections, and the runtime. The shell, auth, design tokens, D1 schema, encrypted connections, guest and local endpoints, the decide bench, the `jevil/app@1` validator and interpreter, the renderer, and three seed apps (Palette Oracle, Vibe Check, Cover Maker) exist. The no-code editor is next. See [ROADMAP.md](./ROADMAP.md).
 
 ## Stack
 

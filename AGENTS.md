@@ -6,7 +6,7 @@ This file is the contract for any agent (or human) contributing to JEVIL. Read i
 
 JEVIL is a marketplace for small, playful apps powered by **decision models** — Jev, Laya, and Clef — instead of chat models. Users bring an API key or a local endpoint, run declarative mini-apps, and get designed visual results. Makers build apps in a no-code editor and publish them.
 
-**Current status (2026-11-04):** phases 0 and 1 are implemented — auth, design system, encrypted account connections, guest browser connections, local endpoints, the decide bench, rate limits, and adapter contract tests. Live hosted-provider calls still need real keys. The next milestone is Phase 2 in [ROADMAP.md](./ROADMAP.md).
+**Current status (2026-11-05):** phases 0–2 are implemented — auth, design system, encrypted account connections, guest browser connections, local endpoints, the decide bench, rate limits, the blueprint validator, binding engine, run state machine, renderer, app detail runner, and three seed apps. Live hosted-provider calls still need real keys. The next milestone is Phase 3 in [ROADMAP.md](./ROADMAP.md).
 
 ## 2. Read order
 

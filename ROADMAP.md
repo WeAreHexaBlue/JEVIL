@@ -173,7 +173,7 @@ Connect Jev with a real key → test → connect a local Laya bridge → run the
   - [x] **Vibe Check** — textarea → 3 scores → verdict badge + dials + probability bars.
   - [x] **Cover Maker** — title → genre choice + 2 scores → typographic cover on canvas.
 - [x] Add a read-only JSON viewer for seed apps (`/apps/[slug]/source`) to make the format legible.
-- [ ] Runtime tests: schema fixtures, binding resolver, transform math, palette generation, step error handling, determinism.
+- [x] Runtime tests: schema fixtures, binding resolver, transform math, palette generation, step error handling, determinism.
 
 ### Exit criteria
 
