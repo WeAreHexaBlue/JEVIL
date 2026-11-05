@@ -164,15 +164,15 @@ Connect Jev with a real key → test → connect a local Laya bridge → run the
   - [x] `grain` — noise overlay.
   - [x] `orb` — single gradient orb.
   - [x] Deterministic by seed; reduced-motion static fallback.
-- [ ] Build the app detail page + runner shell:
-  - [ ] Server-rendered metadata and preview.
-  - [ ] Client runner with connection picker, inputs, run, result, "How this was decided".
-  - [ ] Pending/error/empty states.
+- [x] Build the app detail page + runner shell:
+  - [x] Server-rendered metadata and preview.
+  - [x] Client runner with connection picker, inputs, run, result, "How this was decided".
+  - [x] Pending/error/empty states.
 - [ ] Author three seed blueprints in `src/lib/templates/`:
-  - [ ] **Palette Oracle** — text → choice + 3 scores → 5-color palette + canvas + dials.
+  - [x] **Palette Oracle** — text → choice + 3 scores → 5-color palette + canvas + dials.
   - [ ] **Vibe Check** — textarea → 3 scores → verdict badge + dials + probability bars.
   - [ ] **Cover Maker** — title → genre choice + 2 scores → typographic cover on canvas.
-- [ ] Add a read-only JSON viewer for seed apps (`/apps/[slug]/source`) to make the format legible.
+- [x] Add a read-only JSON viewer for seed apps (`/apps/[slug]/source`) to make the format legible.
 - [ ] Runtime tests: schema fixtures, binding resolver, transform math, palette generation, step error handling, determinism.
 
 ### Exit criteria
