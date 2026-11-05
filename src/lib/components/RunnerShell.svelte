@@ -40,7 +40,9 @@
     let inputs = $state<Record<string, InputValue>>(untrack(() => runner.inputValues));
     let guests = $state<GuestConnection[]>([]);
     let guestsLoaded = $state(false);
-    let selection = $state("");
+    let selection = $state(
+        untrack(() => (accountConnections[0] ? `account:${accountConnections[0].id}` : ""))
+    );
 
     $effect(() => {
         return runner.subscribe((next) => {
