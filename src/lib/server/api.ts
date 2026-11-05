@@ -8,6 +8,7 @@
 import type { RequestEvent } from "@sveltejs/kit";
 import type { User } from "better-auth";
 import { CryptoConfigError, DecryptionError } from "./crypto";
+import { AppError } from "./apps";
 import { ConnectionError } from "./connections";
 import { statusForProviderError } from "./decide";
 import { ProviderError } from "./providers/base";
@@ -45,7 +46,7 @@ export const rateLimited = (retryAfter: number): Response => {
 
 /** Signed-in user, or a 401 the client can act on. */
 export const requireUser = (locals: App.Locals): User => {
-    if (!locals.user) throw new ApiError(401, "unauthorized", "Sign in to manage connections");
+    if (!locals.user) throw new ApiError(401, "unauthorized", "Sign in to continue");
     return locals.user;
 };
 
@@ -87,6 +88,23 @@ export const apiError = (error: unknown): Response => {
         return error.code === "not_found"
             ? fail(404, "not_found", error.message)
             : fail(400, "invalid", error.message);
+    }
+
+    if (error instanceof AppError) {
+        if (error.code === "not_found") return fail(404, "not_found", error.message);
+
+        if (error.code === "conflict") {
+            return json(
+                {
+                    error: "conflict",
+                    message: error.message,
+                    ...(error.revision !== undefined ? { revision: error.revision } : {})
+                },
+                409
+            );
+        }
+
+        return fail(400, "invalid", error.message);
     }
 
     if (error instanceof ProviderError) {

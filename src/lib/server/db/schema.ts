@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+    index,
+    integer,
+    primaryKey,
+    sqliteTable,
+    text,
+    uniqueIndex
+} from "drizzle-orm/sqlite-core";
 import { user } from "./auth.schema";
 
 /**
@@ -92,5 +99,102 @@ export const connection = sqliteTable(
     },
     (table) => [index("connection_user_provider_idx").on(table.userId, table.provider)]
 );
+
+/**
+ * A maker's app (SPEC §9.2). `blueprint_json` is the editable draft; published
+ * versions are immutable snapshots in `app_version`. The display columns are
+ * denormalized from `meta` so catalog queries never parse JSON.
+ *
+ * `draft_revision` is optimistic concurrency: a PATCH must name the revision it
+ * started from, and a mismatch means someone else saved first.
+ */
+export const app = sqliteTable(
+    "app",
+    {
+        id: text("id").primaryKey(),
+        ownerId: text("owner_id")
+            .notNull()
+            .references(() => user.id, { onDelete: "cascade" }),
+        slug: text("slug").notNull().unique(),
+        title: text("title").notNull(),
+        tagline: text("tagline").notNull().default(""),
+        description: text("description"),
+        icon: text("icon").notNull().default("✳️"),
+        accent: text("accent", {
+            enum: ["blue", "pink", "lime", "tangerine", "violet", "sky"]
+        })
+            .notNull()
+            .default("violet"),
+        tagsJson: text("tags_json").notNull().default("[]"),
+        blueprintJson: text("blueprint_json").notNull(),
+        draftRevision: integer("draft_revision").notNull().default(1),
+        publishedVersionId: text("published_version_id"),
+        visibility: text("visibility", {
+            enum: ["draft", "unlisted", "public", "blocked"]
+        })
+            .notNull()
+            .default("draft"),
+        // Remix lineage points at another app/version. No FK: the source may be
+        // deleted without invalidating the child draft.
+        remixedFromAppId: text("remixed_from_app_id"),
+        remixedFromVersionId: text("remixed_from_version_id"),
+        createdAt: integer("created_at", { mode: "timestamp_ms" })
+            .notNull()
+            .$defaultFn(() => new Date()),
+        updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+            .notNull()
+            .$defaultFn(() => new Date())
+            .$onUpdate(() => new Date()),
+        publishedAt: integer("published_at", { mode: "timestamp_ms" })
+    },
+    (table) => [
+        index("app_owner_idx").on(table.ownerId),
+        index("app_visibility_published_idx").on(table.visibility, table.publishedAt),
+        index("app_published_version_idx").on(table.publishedVersionId)
+    ]
+);
+
+/**
+ * One immutable published snapshot. `app.blueprint_json` may move on; this row
+ * never does. The pair (`app_id`, `version`) is unique, and `version` is handed
+ * out from the current max inside a single batch at publish time.
+ */
+export const appVersion = sqliteTable(
+    "app_version",
+    {
+        id: text("id").primaryKey(),
+        appId: text("app_id")
+            .notNull()
+            .references(() => app.id, { onDelete: "cascade" }),
+        version: integer("version").notNull(),
+        blueprintJson: text("blueprint_json").notNull(),
+        changelog: text("changelog"),
+        createdBy: text("created_by")
+            .notNull()
+            .references(() => user.id, { onDelete: "cascade" }),
+        createdAt: integer("created_at", { mode: "timestamp_ms" })
+            .notNull()
+            .$defaultFn(() => new Date())
+    },
+    (table) => [
+        uniqueIndex("app_version_app_version_idx").on(table.appId, table.version),
+        index("app_version_app_idx").on(table.appId)
+    ]
+);
+
+export const appRelations = relations(app, ({ one, many }) => ({
+    owner: one(user, {
+        fields: [app.ownerId],
+        references: [user.id]
+    }),
+    versions: many(appVersion)
+}));
+
+export const appVersionRelations = relations(appVersion, ({ one }) => ({
+    app: one(app, {
+        fields: [appVersion.appId],
+        references: [app.id]
+    })
+}));
 
 export * from "./auth.schema";

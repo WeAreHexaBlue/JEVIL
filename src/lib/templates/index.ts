@@ -7,6 +7,7 @@
  * half-empty page. The raw JSON is kept for the read-only source viewer.
  */
 
+import blank from "./blank.json";
 import coverMaker from "./cover-maker.json";
 import paletteOracle from "./palette-oracle.json";
 import vibeCheck from "./vibe-check.json";
@@ -30,6 +31,14 @@ const definitions: SeedDefinition[] = [
     { slug: "vibe-check", json: vibeCheck },
     { slug: "cover-maker", json: coverMaker }
 ];
+
+/** Blueprints the editor offers as starting points (SPEC §12.3). */
+export const editorTemplateIds = ["blank", "palette-oracle", "vibe-check", "cover-maker"] as const;
+
+export type EditorTemplateId = (typeof editorTemplateIds)[number];
+
+const isEditorTemplate = (id: string): id is EditorTemplateId =>
+    (editorTemplateIds as readonly string[]).includes(id);
 
 const cache = new Map<string, SeedApp>();
 
@@ -65,3 +74,20 @@ export const getSeedApp = (slug: string): SeedApp | undefined =>
 
 /** Slugs only; handy for `entries()` and tests. */
 export const seedSlugs = (): string[] => definitions.map((definition) => definition.slug);
+
+/**
+ * A starting blueprint for the editor: blank, or one of the public seeds.
+ * Unknown ids return `undefined` so the API can answer with a safe 400.
+ */
+export const getEditorTemplate = (id: string): SeedApp | undefined => {
+    if (!isEditorTemplate(id)) return undefined;
+
+    if (id !== "blank") return getSeedApp(id);
+
+    const existing = cache.get("blank");
+    if (existing) return existing;
+
+    const app = build({ slug: "blank", json: blank });
+    cache.set("blank", app);
+    return app;
+};

@@ -1,0 +1,35 @@
+{
+    "schema": "jevil/app@1",
+    "meta": {
+        "title": "Untitled app",
+        "tagline": "A blank blueprint. Add an input, a question, and something to show.",
+        "description": "Start from nothing. Add one input, one decide step, and a little UI; the editor will tell you what is still missing.",
+        "tags": ["blank"],
+        "accent": "violet",
+        "icon": "✳️",
+        "engine": { "media": ["text"] }
+    },
+    "inputs": [],
+    "steps": [],
+    "vars": {},
+    "ui": {
+        "type": "Stack",
+        "id": "root",
+        "props": { "direction": "column", "gap": 6 },
+        "children": [
+            {
+                "type": "Heading",
+                "id": "title",
+                "props": { "level": 2, "text": "Untitled app" }
+            },
+            {
+                "type": "Text",
+                "id": "hint",
+                "props": {
+                    "text": "Start by adding a component from the palette, or ask the model a question.",
+                    "tone": "muted"
+                }
+            }
+        ]
+    }
+}
