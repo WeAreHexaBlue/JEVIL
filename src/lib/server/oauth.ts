@@ -1,6 +1,9 @@
 import { fail, isRedirect, redirect } from "@sveltejs/kit";
 import { m } from "#lib/paraglide/messages";
 
+/** Provider origins Better Auth is allowed to send the browser to. */
+const providerOrigins = ["https://accounts.google.com", "https://github.com"];
+
 /**
  * Start an OAuth flow through Better Auth and hand the browser to the provider.
  * Returns a failure result only when the provider is unavailable.
@@ -21,7 +24,10 @@ export const oauthAction = async (
             headers: request.headers
         });
 
-        if (result.url) redirect(303, result.url);
+        if (result.url) {
+            // SvelteKit requires an explicit allowlist for external redirects.
+            redirect(303, result.url, { external: providerOrigins });
+        }
     } catch (error) {
         if (isRedirect(error)) throw error;
         return fail(400, { error: m.auth_error_oauth() });
