@@ -149,6 +149,18 @@ describe("hosted adapters", () => {
         expect(body.model).toBe("clef-flash");
     });
 
+    it("maps Jev's old model alias to jev-latest", async () => {
+        respond(providerPayload);
+
+        await decide(jevAdapter, connection("jev"), {
+            ...decideRequest,
+            model: "jev"
+        });
+
+        const body = JSON.parse(String(calls[0].init.body)) as DecideRequest;
+        expect(body.model).toBe("jev-latest");
+    });
+
     it("rejects a connection without a key before calling the provider", async () => {
         const error = await providerError(decide(jevAdapter, connection("jev", { secret: "" })));
 

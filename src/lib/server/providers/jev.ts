@@ -11,6 +11,10 @@ import {
 const BASE_URL = "https://api.typesafe.ai";
 const DEFAULT_MODEL = "jev-latest";
 
+/** The old community adapter sent `jev`; keep saved connections working. */
+const normalizeModel = (model: string | undefined): string =>
+    !model || model === "jev" ? DEFAULT_MODEL : model;
+
 /** TypeSafe's official Jev endpoint. */
 export const jevAdapter: DecideAdapter = {
     id: "jev",
@@ -21,7 +25,7 @@ export const jevAdapter: DecideAdapter = {
     validate: async (connection) => validateConfig(connection, BASE_URL, DEFAULT_MODEL, ["text"]),
     decide: async (ctx, req) => {
         const secret = requireSecret(ctx.connection);
-        const model = resolveModel(req.model, ctx.connection, DEFAULT_MODEL);
+        const model = normalizeModel(resolveModel(req.model, ctx.connection, DEFAULT_MODEL));
 
         return postDecide({
             url: joinUrl(resolveBaseUrl(ctx.connection, BASE_URL), "/v1/systemone"),
