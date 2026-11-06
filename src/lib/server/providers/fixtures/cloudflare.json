@@ -1,14 +1,25 @@
 {
-    "model": "@cf/cloudflare/clef",
-    "answers": {
-        "palette": {
-            "choice": "moss",
-            "confidence": 0.9,
-            "probabilities": { "moss": 0.9, "dusk": 0.1 }
+    "success": true,
+    "errors": [],
+    "messages": [],
+    "result": {
+        "model": "@cf/cloudflare/clef",
+        "answers": {
+            "palette": {
+                "type": "choice",
+                "choice": "moss",
+                "confidence": 0.9,
+                "probabilities": { "moss": 0.9, "dusk": 0.1 }
+            },
+            "energy": {
+                "type": "score",
+                "score": 0,
+                "legend": { "0": "calm", "1": "steady", "2": "loud" },
+                "probabilities": { "0": 1, "1": 0, "2": 0 }
+            },
+            "spark": { "type": "noul", "noul": 0.15 },
+            "unused": { "type": "choice", "choice": "dusk" }
         },
-        "energy": { "level": 0 },
-        "spark": { "noul": 0.15 },
-        "unused": { "choice": "dusk" }
-    },
-    "usage": { "input_tokens": 30, "output_tokens": 8, "billed_tokens": 38 }
+        "usage": { "input_tokens": 30, "output_tokens": 8 }
+    }
 }

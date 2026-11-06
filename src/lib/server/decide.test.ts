@@ -83,7 +83,7 @@ describe("guestConnection", () => {
         const connection = guestConnection(
             headers({
                 "x-jevil-provider": "laya",
-                "x-jevil-model": " convaiinnovations/laya ",
+                "x-jevil-model": " english ",
                 "x-jevil-key": "laya_test"
             }),
             dev
@@ -92,7 +92,7 @@ describe("guestConnection", () => {
         expect(connection).toMatchObject({
             provider: "laya",
             baseUrl: "",
-            model: "convaiinnovations/laya",
+            model: "english",
             secret: "laya_test"
         });
     });
@@ -162,7 +162,7 @@ describe("guestConnection", () => {
             guestConnection(
                 headers({
                     "x-jevil-provider": "laya",
-                    "x-jevil-base-url": "http://api.layaaimodel.com",
+                    "x-jevil-base-url": "http://laya-model.com",
                     "x-jevil-key": "k"
                 }),
                 dev

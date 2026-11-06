@@ -13,7 +13,7 @@ const cloud = (overrides: Record<string, unknown> = {}): GuestConnection =>
             mode: "cloud",
             provider: "laya",
             label: "Personal Laya",
-            baseUrl: "https://api.layaaimodel.com",
+            baseUrl: "https://laya-model.com",
             secret: "laya_test",
             ...overrides
         },
@@ -80,7 +80,7 @@ describe("guestConnectionInput", () => {
         expect(input).toEqual({
             provider: "cloudflare",
             label: "Personal Laya",
-            baseUrl: "https://api.layaaimodel.com",
+            baseUrl: "https://laya-model.com",
             model: "@cf/cloudflare/clef",
             secret: "laya_test",
             config: { accountId: "acct_123" }

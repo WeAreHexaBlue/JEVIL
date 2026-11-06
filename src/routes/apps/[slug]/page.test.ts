@@ -11,7 +11,7 @@ const connection = (overrides: Partial<ConnectionView> = {}): ConnectionView => 
     id: "conn_1",
     provider: "laya",
     label: "Laya at home",
-    baseUrl: "https://api.layaaimodel.com",
+    baseUrl: "https://laya-model.com",
     model: "laya-1",
     config: {},
     authScheme: "bearer",

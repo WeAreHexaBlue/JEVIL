@@ -64,8 +64,8 @@ const cases: Case[] = [
         name: "jev",
         adapter: jevAdapter,
         connection: connection("jev"),
-        url: "https://jevtypesafe.org/api/v1/decide",
-        model: "jev",
+        url: "https://api.typesafe.ai/v1/systemone",
+        model: "jev-latest",
         answers: {
             palette: {
                 choice: "moss",
@@ -80,8 +80,8 @@ const cases: Case[] = [
         name: "laya",
         adapter: layaAdapter,
         connection: connection("laya"),
-        url: "https://api.layaaimodel.com/v1/decide",
-        model: "convaiinnovations/laya",
+        url: "https://laya-model.com/v1/decide",
+        model: "english",
         answers: {
             palette: {
                 choice: "dusk",
@@ -113,14 +113,14 @@ const cases: Case[] = [
         adapter: cloudflareAdapter,
         connection: connection("cloudflare", { config: { accountId: "acct_fixture" } }),
         url: "https://api.cloudflare.com/client/v4/accounts/acct_fixture/ai/run/@cf/cloudflare/clef",
-        model: "@cf/cloudflare/clef",
+        model: "clef",
         answers: {
             palette: {
                 choice: "moss",
                 confidence: 0.9,
                 probabilities: { dusk: 0.1, dawn: 0, moss: 0.9 }
             },
-            energy: { score: 0, level: 0, confidence: 0 },
+            energy: { score: 0, level: 0, confidence: 1 },
             spark: { noul: 0.15 }
         }
     },
@@ -212,17 +212,25 @@ describe("provider contract fixtures", () => {
 
             // The fixture's unknown question never reaches the response.
             expect(Object.keys(result.answers).sort()).toEqual(["energy", "palette", "spark"]);
-            expect(result._raw).toEqual(payload);
+
+            // Workers AI wraps the model output in a REST envelope; every other
+            // provider returns the System One payload directly.
+            const rawPayload =
+                testCase.name === "cloudflare"
+                    ? (payload as { success: boolean; result: unknown }).result
+                    : payload;
+            expect(result._raw).toEqual(rawPayload);
         });
     }
 
     it("falls back to the adapter model when the payload omits one", async () => {
-        respond(fixture("jev"));
+        const { answers } = fixture("jev") as { answers: unknown };
+        respond({ answers });
         const result = await jevAdapter.decide(
             { connection: connection("jev"), signal: new AbortController().signal },
             request
         );
-        expect(result.model).toBe("jev");
+        expect(result.model).toBe("jev-latest");
     });
 });
 

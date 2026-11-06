@@ -1,3 +1,4 @@
+import { isRecord } from "#lib/decide/normalize";
 import {
     joinUrl,
     postDecide,
@@ -10,7 +11,9 @@ import {
 } from "./base";
 
 const BASE_URL = "https://api.cloudflare.com";
-const DEFAULT_MODEL = "@cf/cloudflare/clef";
+const MODEL = "@cf/cloudflare/clef";
+const MODEL_FLASH = "@cf/cloudflare/clef-flash";
+const DEFAULT_MODEL = MODEL;
 const CAPABILITIES: DecideAdapter["capabilities"] = ["text", "image"];
 
 /** Workers AI needs an account id from the connection config. */
@@ -22,17 +25,31 @@ const requireAccountId = (config: Record<string, unknown> | undefined): string =
     return accountId.trim();
 };
 
-/** Keep the model in one path shape and refuse anything that could break out. */
-const modelPath = (model: string): string => {
-    if (
-        model.includes("..") ||
-        model.startsWith("/") ||
-        model.endsWith("/") ||
-        !/^[A-Za-z0-9@/._-]+$/.test(model)
-    ) {
-        throw new ProviderError("validation", "That model id is not valid for Cloudflare");
+/**
+ * Workers AI takes the `@cf/...` id in the path and a short selector in the
+ * body. Accept either spelling from the connection and normalize to the id.
+ */
+const normalizeModel = (raw: string | undefined): string => {
+    const model = raw?.trim();
+    if (!model || model === MODEL || model === "clef") return MODEL;
+    if (model === MODEL_FLASH || model === "clef-flash") return MODEL_FLASH;
+    throw new ProviderError("validation", "That model id is not valid for Cloudflare");
+};
+
+/** The body selector that pairs with a `@cf/...` model id. */
+const bodyModel = (model: string): string => (model === MODEL_FLASH ? "clef-flash" : "clef");
+
+/** Workers AI REST wraps the model output in `{ success, result }`. */
+const unwrapWorkersAi = (payload: unknown): unknown => {
+    if (!isRecord(payload)) {
+        throw new ProviderError("upstream", "Provider returned an unexpected payload");
     }
-    return model;
+
+    if (payload.success !== true || !isRecord(payload.result)) {
+        throw new ProviderError("upstream", "Provider returned no answers");
+    }
+
+    return payload.result;
 };
 
 /** Cloudflare Workers AI, one account per connection. */
@@ -40,7 +57,7 @@ export const cloudflareAdapter: DecideAdapter = {
     id: "cloudflare",
     defaultBaseUrl: BASE_URL,
     defaultModel: DEFAULT_MODEL,
-    models: ["@cf/cloudflare/clef", "@cf/cloudflare/clef-flash"],
+    models: [MODEL, MODEL_FLASH],
     capabilities: CAPABILITIES,
     validate: async (connection) => {
         try {
@@ -58,17 +75,21 @@ export const cloudflareAdapter: DecideAdapter = {
     decide: async (ctx, req) => {
         const secret = requireSecret(ctx.connection);
         const accountId = requireAccountId(ctx.connection.config);
-        const model = resolveModel(req.model, ctx.connection, DEFAULT_MODEL) ?? DEFAULT_MODEL;
+        const model = normalizeModel(
+            resolveModel(req.model, ctx.connection, DEFAULT_MODEL) ?? DEFAULT_MODEL
+        );
 
         return postDecide({
             url: joinUrl(
                 resolveBaseUrl(ctx.connection, BASE_URL),
-                `/client/v4/accounts/${encodeURIComponent(accountId)}/ai/run/${modelPath(model)}`
+                `/client/v4/accounts/${encodeURIComponent(accountId)}/ai/run/${model}`
             ),
             headers: { authorization: `Bearer ${secret}` },
             ctx,
             req,
-            model
+            model,
+            bodyModel: bodyModel(model),
+            unwrap: unwrapWorkersAi
         });
     }
 };

@@ -333,15 +333,22 @@ export const postDecide = async ({
     headers = {},
     ctx,
     req,
-    model
+    model,
+    bodyModel,
+    unwrap
 }: {
     url: string;
     headers?: Record<string, string>;
     ctx: DecideContext;
     req: DecideRequest;
     model?: string;
+    /** Provider-specific body selector when it differs from the path model. */
+    bodyModel?: string;
+    /** Unwrap a provider envelope before parsing the System One payload. */
+    unwrap?: (payload: unknown) => unknown;
 }): Promise<DecideResponse> => {
-    const body = model ? { ...req, model } : req;
+    const selected = bodyModel ?? model;
+    const body = selected ? { ...req, model: selected } : req;
     const payload = await fetchJson(url, {
         method: "POST",
         headers,
@@ -349,5 +356,9 @@ export const postDecide = async ({
         signal: ctx.signal
     });
 
-    return parseDecideResponse(payload, req.questions, model ?? "unknown");
+    return parseDecideResponse(
+        unwrap ? unwrap(payload) : payload,
+        req.questions,
+        model ?? "unknown"
+    );
 };

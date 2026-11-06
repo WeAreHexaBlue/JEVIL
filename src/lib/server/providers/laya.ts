@@ -8,15 +8,15 @@ import {
     type DecideAdapter
 } from "./base";
 
-const BASE_URL = "https://api.layaaimodel.com";
-const DEFAULT_MODEL = "convaiinnovations/laya";
+const BASE_URL = "https://laya-model.com";
+const DEFAULT_MODEL = "english";
 
-/** Laya's hosted gateway. */
+/** Laya's hosted community gateway. */
 export const layaAdapter: DecideAdapter = {
     id: "laya",
     defaultBaseUrl: BASE_URL,
     defaultModel: DEFAULT_MODEL,
-    models: ["convaiinnovations/laya", "convaiinnovations/laya-multilingual"],
+    models: ["english", "multilingual", "laya", "laya-multilingual"],
     capabilities: ["text"],
     validate: async (connection) => validateConfig(connection, BASE_URL, DEFAULT_MODEL, ["text"]),
     decide: async (ctx, req) => {

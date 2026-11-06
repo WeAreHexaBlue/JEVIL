@@ -77,13 +77,13 @@ describe("normalizeConnectionInput", () => {
             {
                 provider: "laya",
                 baseUrl: "  https://proxy.test  ",
-                model: "  convaiinnovations/laya  "
+                model: "  english  "
             },
             prod
         );
 
         expect(normalized.baseUrl).toBe("https://proxy.test");
-        expect(normalized.model).toBe("convaiinnovations/laya");
+        expect(normalized.model).toBe("english");
     });
 });
 

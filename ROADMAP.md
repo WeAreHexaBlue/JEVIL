@@ -76,10 +76,10 @@ Sign up with GitHub → land on `/me` → sign out → sign in with email → re
 - [x] Define the normalized `DecideRequest` / `DecideResponse` / `Answer` types in `src/lib/decide/types.ts`.
 - [x] Implement `src/lib/server/providers/`:
   - [x] `base.ts` — `fetchJson` (15 s timeout, 256 KB cap, no redirects, redacted errors), `normalizeAnswers`, `ProviderError`.
-  - [x] `jev.ts` — `POST /api/v1/decide`, `Bearer jv_live_`.
-  - [x] `laya.ts` — `POST /v1/decide`, `Bearer laya_`; models `convaiinnovations/laya`, `…/laya-multilingual`.
+  - [x] `jev.ts` — `POST https://api.typesafe.ai/v1/systemone`, `Bearer <TypeSafe key>`; models `jev-latest`, `jev-preview`, versioned IDs.
+  - [x] `laya.ts` — `POST https://laya-model.com/v1/decide`, `Bearer laya_`; aliases `english`, `multilingual`.
   - [x] `clef.ts` — `POST /v1/clef-omni/run/`, `Bearer sk_live_`; models `clef-omni`, `clef`, `clef-flash`.
-  - [x] `cloudflare.ts` — `POST /client/v4/accounts/{accountId}/ai/run/@cf/cloudflare/clef`, `Bearer <CF token>`.
+  - [x] `cloudflare.ts` — `POST /client/v4/accounts/{accountId}/ai/run/@cf/cloudflare/clef`, `Bearer <CF token>`; body selector `clef`/`clef-flash`, unwraps `{ success, result }`.
   - [x] `systemone.ts` — custom base URL, optional bearer/custom header, `/v1/decide`.
   - [x] `index.ts` — registry + capability metadata.
 - [x] Implement connection encryption:

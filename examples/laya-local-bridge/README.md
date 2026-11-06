@@ -28,13 +28,13 @@ It listens on <http://127.0.0.1:8000> by default.
     python app.py
     ```
 
-| Variable          | Default                       | Purpose                                              |
-| ----------------- | ----------------------------- | ---------------------------------------------------- |
-| `LAYAAI_API_KEY`  | empty                         | Forward to Laya instead of the deterministic answers |
-| `LAYAAI_BASE_URL` | `https://api.layaaimodel.com` | Hosted endpoint to forward to                        |
-| `BRIDGE_MODEL`    | `convaiinnovations/laya`      | Model name reported by `/health`                     |
-| `JEVIL_ORIGIN`    | `http://localhost:5173`       | Allowed CORS origin                                  |
-| `PORT`            | `8000`                        | Listen port (loopback only)                          |
+| Variable          | Default                  | Purpose                                              |
+| ----------------- | ------------------------ | ---------------------------------------------------- |
+| `LAYAAI_API_KEY`  | empty                    | Forward to Laya instead of the deterministic answers |
+| `LAYAAI_BASE_URL` | `https://laya-model.com` | Hosted endpoint to forward to                        |
+| `BRIDGE_MODEL`    | `english`                | Model name reported by `/health`                     |
+| `JEVIL_ORIGIN`    | `http://localhost:5173`  | Allowed CORS origin                                  |
+| `PORT`            | `8000`                   | Listen port (loopback only)                          |
 
 ## Connect JEVIL
 

@@ -85,13 +85,13 @@ describe("hosted adapters", () => {
     const cases = [
         {
             adapter: jevAdapter,
-            url: "https://jevtypesafe.org/api/v1/decide",
-            model: "jev"
+            url: "https://api.typesafe.ai/v1/systemone",
+            model: "jev-latest"
         },
         {
             adapter: layaAdapter,
-            url: "https://api.layaaimodel.com/v1/decide",
-            model: "convaiinnovations/laya"
+            url: "https://laya-model.com/v1/decide",
+            model: "english"
         },
         {
             adapter: clefAdapter,
@@ -168,7 +168,7 @@ describe("hosted adapters", () => {
     it("validates configuration without a network call", async () => {
         await expect(jevAdapter.validate(connection("jev"))).resolves.toMatchObject({
             ok: true,
-            model: "jev"
+            model: "jev-latest"
         });
 
         await expect(jevAdapter.validate(connection("jev", { secret: "" }))).resolves.toEqual({
@@ -181,8 +181,15 @@ describe("hosted adapters", () => {
 });
 
 describe("cloudflareAdapter", () => {
-    it("builds the account and model path", async () => {
-        respond(providerPayload);
+    const workersAiPayload = {
+        success: true,
+        errors: [],
+        messages: [],
+        result: providerPayload
+    };
+
+    it("builds the account path and sends the model selector", async () => {
+        respond(workersAiPayload);
 
         await decide(
             cloudflareAdapter,
@@ -195,10 +202,25 @@ describe("cloudflareAdapter", () => {
         expect((calls[0].init.headers as Record<string, string>).authorization).toBe(
             "Bearer test-key"
         );
+
+        const body = JSON.parse(String(calls[0].init.body)) as DecideRequest;
+        expect(body.model).toBe("clef");
     });
 
-    it("uses a requested model in the path", async () => {
-        respond(providerPayload);
+    it("unwraps the Workers AI envelope", async () => {
+        respond(workersAiPayload);
+
+        const result = await decide(
+            cloudflareAdapter,
+            connection("cloudflare", { config: { accountId: "acct_123" } })
+        );
+
+        expect(result.answers.palette).toMatchObject({ choice: "dusk", confidence: 0.75 });
+        expect(result._raw).toEqual(providerPayload);
+    });
+
+    it("uses a requested model in the path and the body", async () => {
+        respond(workersAiPayload);
 
         await decide(
             cloudflareAdapter,
@@ -207,6 +229,33 @@ describe("cloudflareAdapter", () => {
         );
 
         expect(calls[0].url).toContain("/ai/run/@cf/cloudflare/clef-flash");
+        const body = JSON.parse(String(calls[0].init.body)) as DecideRequest;
+        expect(body.model).toBe("clef-flash");
+    });
+
+    it("accepts the short model selector", async () => {
+        respond(workersAiPayload);
+
+        await decide(
+            cloudflareAdapter,
+            connection("cloudflare", { config: { accountId: "acct_123" } }),
+            { ...decideRequest, model: "clef-flash" }
+        );
+
+        expect(calls[0].url).toContain("/ai/run/@cf/cloudflare/clef-flash");
+        const body = JSON.parse(String(calls[0].init.body)) as DecideRequest;
+        expect(body.model).toBe("clef-flash");
+    });
+
+    it("reports a failed Workers AI envelope", async () => {
+        respond({ success: false, errors: [{ code: 1000 }], result: null });
+
+        const error = await providerError(
+            decide(cloudflareAdapter, connection("cloudflare", { config: { accountId: "a" } }))
+        );
+
+        expect(error.code).toBe("upstream");
+        expect(error.message).toContain("no answers");
     });
 
     it("requires an account id", async () => {

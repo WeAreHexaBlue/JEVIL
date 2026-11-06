@@ -79,7 +79,7 @@ describe("isLocalEndpoint", () => {
 describe("decideLocal", () => {
     it("posts to /v1/decide and returns normalized answers", async () => {
         const { calls, fetchImpl } = capture({
-            model: "convaiinnovations/laya",
+            model: "english",
             answers,
             usage: { input_tokens: 4, output_tokens: 2 },
             meta: { latency_ms: 12 }
@@ -93,7 +93,7 @@ describe("decideLocal", () => {
         expect(calls[0]!.init.redirect).toBe("manual");
         expect(JSON.parse(String(calls[0]!.init.body))).toEqual(request);
 
-        expect(result.model).toBe("convaiinnovations/laya");
+        expect(result.model).toBe("english");
         expect(result.usage).toEqual({ input_tokens: 4, output_tokens: 2 });
         expect(result.meta).toEqual({ latency_ms: 12 });
 

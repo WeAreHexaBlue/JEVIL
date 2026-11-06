@@ -9,7 +9,7 @@ const connection = (overrides: Record<string, unknown> = {}): GuestConnection =>
             mode: "cloud",
             provider: "laya",
             label: "Laya",
-            baseUrl: "https://api.layaaimodel.com",
+            baseUrl: "https://laya-model.com",
             secret: "laya_test",
             ...overrides
         },
@@ -65,7 +65,7 @@ describe("proxyHeaders", () => {
         ).toEqual({
             "content-type": "application/json",
             "x-jevil-provider": "cloudflare",
-            "x-jevil-base-url": "https://api.layaaimodel.com",
+            "x-jevil-base-url": "https://laya-model.com",
             "x-jevil-model": "@cf/cloudflare/clef",
             "x-jevil-key": "laya_test",
             "x-jevil-account-id": "acct_1"

@@ -9,13 +9,13 @@ const allowed = (raw: string, policy: EndpointPolicy): boolean => checkEndpointU
 
 describe("checkEndpointUrl", () => {
     it("accepts a normal https endpoint on 443 or 8443", () => {
-        expect(allowed("https://api.layaaimodel.com", prod)).toBe(true);
+        expect(allowed("https://laya-model.com", prod)).toBe(true);
         expect(allowed("https://proxy.test:8443/v1", prod)).toBe(true);
     });
 
     it("rejects plain http for remote hosts", () => {
-        expect(allowed("http://api.layaaimodel.com", dev)).toBe(false);
-        expect(checkEndpointUrl("http://api.layaaimodel.com", dev)).toMatchObject({
+        expect(allowed("http://laya-model.com", dev)).toBe(false);
+        expect(checkEndpointUrl("http://laya-model.com", dev)).toMatchObject({
             ok: false,
             problem: "scheme"
         });

@@ -20,10 +20,10 @@ import requests
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
 
-LAYAAI_BASE_URL = os.environ.get("LAYAAI_BASE_URL", "https://api.layaaimodel.com").rstrip("/")
+LAYAAI_BASE_URL = os.environ.get("LAYAAI_BASE_URL", "https://laya-model.com").rstrip("/")
 LAYAAI_API_KEY = os.environ.get("LAYAAI_API_KEY", "").strip()
 JEVIL_ORIGIN = os.environ.get("JEVIL_ORIGIN", "http://localhost:5173")
-MODEL = os.environ.get("BRIDGE_MODEL", "convaiinnovations/laya")
+MODEL = os.environ.get("BRIDGE_MODEL", "english")
 PORT = int(os.environ.get("PORT", "8000"))
 
 MAX_BYTES = 256 * 1024

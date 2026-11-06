@@ -15,20 +15,20 @@ Three model families share one primitive: **state in → typed questions → pro
 
 ### 1.1 Jev (TypeSafe)
 
-- **Owner:** TypeSafe AI. Closed API, served upstream through Cloudflare Workers AI.
+- **Owner:** TypeSafe AI. Closed API.
 - **Category:** "System One" decision model.
-- **Endpoint:** `POST https://jevtypesafe.org/api/v1/decide` (community host; configurable).
-- **Auth:** `Authorization: Bearer jv_live_…`
-- **Body:** `{ state, questions, model? }`
-  - `state` — string or JSON, up to ~8,000 characters.
+- **Endpoint:** `POST https://api.typesafe.ai/v1/systemone`.
+- **Auth:** `Authorization: Bearer <TypeSafe API key>`.
+- **Body:** `{ model, state, questions }`
+  - `state` — string, object, or array; 64k per-request context by default.
   - `questions` — map of `id → question`.
-  - `model` — `jev` (default) or `openai-decisions` (3× metering).
+  - `model` — required. `jev-latest` (default alias), `jev-preview`, or a versioned ID such as `jev-1.14.0`.
 - **Question types:**
   - `choice` — `criteria` is a map of option key → description. Returns the winning key, per-option probabilities, and confidence.
   - `score` — `criteria` is an ordered array of 2–10 levels. Returns a numeric score plus a distribution.
   - `noul` — calibrated yes/no. No criteria; returns a probability in `[0, 1]`.
   - `box` — beta bounding box; **out of scope for v1**.
-- **Extras:** `/v1/batch/decide`, `/v1/gate` (confidence policy, no token burn), image `assets` (beta).
+- **Extras:** `GET /v1/models`, `TypeSafe-Danger-Zone-Long-Context` (262k context), and image `assets` / `box` questions behind `TypeSafe-Danger-Zone-Images`.
 - **Response shape:**
 
 ```json
@@ -39,7 +39,7 @@ Three model families share one primitive: **state in → typed questions → pro
     "urgency": { "type": "score", "score": 2.0, "confidence": 0.9, "probabilities": { "0": 0.05, "1": 0.1, "2": 0.7, "3": 0.15 } },
     "escalate": { "type": "noul", "noul": 0.72 }
   },
-  "usage": { "input_tokens": 180, "billed_tokens": 180, "output_tokens": 0 }
+  "usage": { "input_tokens": 180, "output_tokens": 0 }
 }
 ```
 
@@ -49,21 +49,22 @@ Three model families share one primitive: **state in → typed questions → pro
 
 - **Owner:** Convai Innovations. **Apache 2.0 open weights.**
 - **Local:** `pip install laya`; `Router(preload=True).predict(state, questions)`.
-- **Hosted community gateway:** `POST https://api.layaaimodel.com/v1/decide`, `Authorization: Bearer laya_…`
-- **Models:** `convaiinnovations/laya` (default), `convaiinnovations/laya-multilingual`.
-- **Schema:** same `state` + `questions` shape as Jev (`choice`, `score`, `noul`).
+- **Hosted community gateway:** `POST https://laya-model.com/v1/decide` (aliases `/v1/systemone` and `/api/decide`), `Authorization: Bearer laya_…`
+- **Models:** `english` (default) and `multilingual`. The gateway also accepts `laya`, `laya-multilingual`, and the underlying `convaiinnovations/laya*` ids.
+- **Schema:** same `state` + `questions` shape as Jev (`choice`, `score`, `noul`); `model` is optional.
+- **Response:** the upstream checkpoint id in `model` (for example `laya-0.3.4/english`), plus `usage`, `timing`, and gateway `billing`.
 - **Why it matters:** self-hosting, no vendor lock-in, multilingual checkpoint, very low latency on modest hardware.
 - **Local HTTP contract:** Laya ships as a Python library, not an HTTP server. JEVIL defines a tiny **System One HTTP contract** (see §10.4) so a local wrapper can serve the same schema to the browser.
 
 ### 1.3 Clef (Cloudflare)
 
 - **Owner:** Cloudflare. **Apache 2.0.** 27B multimodal decision model (Clef Omni is a 30B MoE / ~3B active variant on the demo host); `clef-flash` is the 9B sibling.
-- **Workers AI:** `@cf/cloudflare/clef` and `@cf/cloudflare/clef-flash`; 65,536-token context; vision. **$0.24 / M input tokens**, output free.
+- **Workers AI:** `@cf/cloudflare/clef` and `@cf/cloudflare/clef-flash`; 65,536-token context; vision. **$0.24 / M input tokens**, output free. The REST path carries the `@cf/...` id; the JSON body carries the short selector (`model: "clef" | "clef-flash"`). Responses arrive in Cloudflare's `{ success, result }` envelope.
 - **Hosted community gateway:** `POST https://clefdemo.com/v1/clef-omni/run/`, `Authorization: Bearer sk_live_…`
 - **Schema:** System One-compatible, plus optional `images[]`, `audio[]`, `videos[]` (embedded data URLs only).
 - **Why it matters:** multimodal gates — a palette from a photo, a verdict from a screenshot, a mood from a clip. Media support is a later phase, but the schema must not block it.
 
-> **Host caveat:** `jevtypesafe.org`, `api.layaaimodel.com`, and `clefdemo.com` are independent community hosts, not the model owners. Every connection in JEVIL stores a **base URL**, so users can point at official endpoints, a proxy, or a local server without a code change.
+> **Host caveat:** Jev ships against TypeSafe's official `api.typesafe.ai`. `laya-model.com` and `clefdemo.com` are independent community hosts, not the model owners. Every connection in JEVIL stores a **base URL**, so users can point at official endpoints, a proxy, or a local server without a code change.
 
 ### 1.4 The shared contract
 
@@ -377,13 +378,15 @@ Adapters live in `src/lib/server/providers/`. They share a `normalizeAnswers()` 
 
 | Provider | `id` | Default base URL | Path | Auth | Models |
 | --- | --- | --- | --- | --- | --- |
-| Jev | `jev` | `https://jevtypesafe.org` | `/api/v1/decide` | `Bearer jv_live_…` | `jev`, `openai-decisions` |
-| Laya (hosted) | `laya` | `https://api.layaaimodel.com` | `/v1/decide` | `Bearer laya_…` | `convaiinnovations/laya`, `…/laya-multilingual` |
+| Jev | `jev` | `https://api.typesafe.ai` | `/v1/systemone` | `Bearer <TypeSafe key>` | `jev-latest`, `jev-preview`, `jev-1.14.0`, `jev-1.13.0` |
+| Laya (hosted) | `laya` | `https://laya-model.com` | `/v1/decide` | `Bearer laya_…` | `english`, `multilingual`, `laya`, `laya-multilingual` |
 | Clef (hosted) | `clef` | `https://clefdemo.com` | `/v1/clef-omni/run/` | `Bearer sk_live_…` | `clef-omni`, `clef`, `clef-flash` |
 | Cloudflare Workers AI | `cloudflare` | `https://api.cloudflare.com` | `/client/v4/accounts/{accountId}/ai/run/@cf/cloudflare/clef` | `Bearer <CF token>` | `@cf/cloudflare/clef`, `@cf/cloudflare/clef-flash` |
 | Local / custom | `systemone` | user-supplied | `/v1/decide` | none / bearer / custom header | any |
 
 `config_json` holds non-secret per-provider config: `{ accountId }` for Cloudflare, `{ headerName }` for custom auth. Secrets are never in `config_json`.
+
+Cloudflare is the one adapter whose request and response differ structurally from the shared contract: the `@cf/...` model id belongs in the URL path, the body carries `model: "clef" | "clef-flash"`, and `fetchJson` output must be unwrapped from `{ success, result }` before `parseDecideResponse`. The adapter normalizes either spelling of the model id and rejects anything else.
 
 ### 10.3 Normalization
 
@@ -583,7 +586,7 @@ script-src 'self';
 style-src 'self' 'unsafe-inline';
 img-src 'self' data: blob:;
 font-src 'self';
-connect-src 'self' https://jevtypesafe.org https://api.layaaimodel.com
+connect-src 'self' https://api.typesafe.ai https://laya-model.com
             https://clefdemo.com https://api.cloudflare.com
             http://localhost:* http://127.0.0.1:*;
 frame-ancestors 'none';
@@ -755,9 +758,9 @@ These need a decision before the phase that depends on them. Defaults are sugges
 
 ## 23. References
 
-- Jev API docs — <https://jevtypesafe.org/docs/api/>
-- Jev model page — <https://jevtypesafe.org/models/jev/>
-- Laya community docs — <https://www.layaaimodel.com/docs/api/>
+- Jev API docs — <https://docs.typesafe.ai/api/system-one>
+- Jev model list and aliases — <https://docs.typesafe.ai/models>
+- Laya community docs — <https://laya-model.com/docs/api>
 - Laya upstream — <https://github.com/NandhaKishorM/laya>
 - Clef Omni API — <https://clefdemo.com/docs/api/clef-omni/>
 - Cloudflare Workers AI Clef — <https://developers.cloudflare.com/workers-ai/models/clef/>

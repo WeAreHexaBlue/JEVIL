@@ -1,16 +1,20 @@
 {
+    "model": "jev-1.14.0",
     "answers": {
         "palette": {
+            "type": "choice",
             "choice": "moss",
             "confidence": 0.62,
             "probabilities": { "dusk": 0.18, "dawn": 0.2, "moss": 0.62 }
         },
         "energy": {
-            "level": 2,
+            "type": "score",
+            "score": 0.725,
             "confidence": 0.55,
-            "probabilities": { "calm": 0.1, "steady": 0.35, "loud": 0.55 }
+            "legend": { "0": "calm", "1": "steady", "2": "loud" },
+            "probabilities": { "0": 0.1, "1": 0.35, "2": 0.55 }
         },
-        "spark": { "noul": 0.8 }
+        "spark": { "type": "noul", "noul": 0.8 }
     },
     "usage": { "input_tokens": 40, "output_tokens": 12 }
 }

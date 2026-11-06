@@ -1,15 +1,20 @@
 {
-    "model": "convaiinnovations/laya",
+    "model": "laya-0.3.4/english",
     "answers": {
         "palette": {
+            "type": "choice",
             "choice": "dusk",
             "probabilities": { "dusk": 42, "dawn": 33, "moss": 25 }
         },
         "energy": {
-            "level": 1,
+            "type": "score",
+            "score": 1,
+            "legend": { "0": "calm", "1": "steady", "2": "loud" },
             "probabilities": { "0": 0.25, "1": 0.5, "2": 0.25 }
         },
-        "spark": { "probability": 1.4 }
+        "spark": { "type": "noul", "noul": 1.4 }
     },
-    "usage": { "billed_tokens": 20 }
+    "usage": { "input_tokens": 20, "output_tokens": 0 },
+    "timing": { "infer_ms": 834 },
+    "request_id": null
 }

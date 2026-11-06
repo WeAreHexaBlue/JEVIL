@@ -8,15 +8,15 @@ import {
     type DecideAdapter
 } from "./base";
 
-const BASE_URL = "https://jevtypesafe.org";
-const DEFAULT_MODEL = "jev";
+const BASE_URL = "https://api.typesafe.ai";
+const DEFAULT_MODEL = "jev-latest";
 
-/** Jev's hosted community endpoint. */
+/** TypeSafe's official Jev endpoint. */
 export const jevAdapter: DecideAdapter = {
     id: "jev",
     defaultBaseUrl: BASE_URL,
     defaultModel: DEFAULT_MODEL,
-    models: ["jev", "openai-decisions"],
+    models: ["jev-latest", "jev-preview", "jev-1.14.0", "jev-1.13.0"],
     capabilities: ["text"],
     validate: async (connection) => validateConfig(connection, BASE_URL, DEFAULT_MODEL, ["text"]),
     decide: async (ctx, req) => {
@@ -24,7 +24,7 @@ export const jevAdapter: DecideAdapter = {
         const model = resolveModel(req.model, ctx.connection, DEFAULT_MODEL);
 
         return postDecide({
-            url: joinUrl(resolveBaseUrl(ctx.connection, BASE_URL), "/api/v1/decide"),
+            url: joinUrl(resolveBaseUrl(ctx.connection, BASE_URL), "/v1/systemone"),
             headers: { authorization: `Bearer ${secret}` },
             ctx,
             req,
